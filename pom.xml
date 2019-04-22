@@ -427,7 +427,7 @@
 
     </dependencies>
 
-    <build>
+   <!-- <build>
         <plugins>
             <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -435,6 +435,6 @@
                     <version>2.10.4</version>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 </project>
