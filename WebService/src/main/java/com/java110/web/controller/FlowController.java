@@ -17,6 +17,7 @@ import java.util.Date;
 
 /**
  * 流程控制类
+ *  访问模块主页面控制类，所有要访问Flow页面的请求在这里处理
  */
 @Controller
 public class FlowController extends BaseController {
