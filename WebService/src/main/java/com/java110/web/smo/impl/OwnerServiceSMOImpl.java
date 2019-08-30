@@ -122,7 +122,7 @@ public class OwnerServiceSMOImpl extends BaseComponentSMO implements IOwnerServi
     @Override
     public ResponseEntity<String> saveOwner(IPageData pd) {
 
-        validateSaveOwner(pd);
+        validateSaveOwner(pd);  //校验页面数据
 
         //校验员工是否有权限操作
         super.checkUserHasPrivilege(pd, restTemplate, PrivilegeCodeConstant.PRIVILEGE_FLOOR);
