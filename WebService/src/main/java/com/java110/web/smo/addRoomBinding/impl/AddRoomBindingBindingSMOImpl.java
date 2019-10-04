@@ -2,10 +2,10 @@ package com.java110.web.smo.addRoomBinding.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.constant.PrivilegeCodeConstant;
-import com.java110.common.constant.ServiceCodeAddRoomBindingConstant;
-import com.java110.common.constant.ServiceConstant;
-import com.java110.common.util.Assert;
+import com.java110.utils.constant.PrivilegeCodeConstant;
+import com.java110.utils.constant.ServiceCodeAddRoomBindingConstant;
+import com.java110.utils.constant.ServiceConstant;
+import com.java110.utils.util.Assert;
 import com.java110.web.smo.addRoomBinding.IAddRoomBindingBindingSMO;
 import org.springframework.web.client.RestTemplate;
 import com.java110.core.context.IPageData;
@@ -33,10 +33,10 @@ public class AddRoomBindingBindingSMOImpl extends AbstractComponentSMO implement
         //Assert.hasKeyAndValue(paramIn, "xxx", "xxx");
         Assert.hasKeyByFlowData(infos, "addRoomView", "roomNum", "必填，请填写房屋编号");
         Assert.hasKeyByFlowData(infos, "addRoomView", "layer", "必填，请填写房屋楼层");
-        Assert.hasKeyByFlowData(infos, "addRoomView", "section", "必填，请填写房屋楼层");
+        /*Assert.hasKeyByFlowData(infos, "addRoomView", "section", "必填，请填写房屋楼层");*/
         Assert.hasKeyByFlowData(infos, "addRoomView", "apartment", "必填，请选择房屋户型");
         Assert.hasKeyByFlowData(infos, "addRoomView", "builtUpArea", "必填，请填写房屋建筑面积");
-        Assert.hasKeyByFlowData(infos, "addRoomView", "unitPrice", "必填，请填写房屋每平米单价");
+       /* Assert.hasKeyByFlowData(infos, "addRoomView", "unitPrice", "必填，请填写房屋每平米单价");*/
         Assert.hasKeyByFlowData(infos, "addRoomView", "state", "必填，请选择房屋状态");
 
 

@@ -1,7 +1,7 @@
 package com.java110.community.smo.impl;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.community.dao.IUnitServiceDao;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.unit.IUnitInnerServiceSMO;
@@ -42,7 +42,6 @@ public class UnitInnerServiceSMOImpl extends BaseServiceSMO implements IUnitInne
 
         if (page != PageDto.DEFAULT_PAGE) {
             unitDto.setPage((page - 1) * unitDto.getRow());
-            unitDto.setRow(page * unitDto.getRow());
         }
 
         List<UnitDto> units = BeanConvertUtil.covertBeanList(unitServiceDaoImpl.getUnitInfo(BeanConvertUtil.beanCovertMap(unitDto)), UnitDto.class);

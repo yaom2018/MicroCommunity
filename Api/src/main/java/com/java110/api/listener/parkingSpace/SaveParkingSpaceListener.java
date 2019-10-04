@@ -3,15 +3,14 @@ package com.java110.api.listener.parkingSpace;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.listener.AbstractServiceApiDataFlowListener;
-import com.java110.common.constant.BusinessTypeConstant;
-import com.java110.common.constant.CommonConstant;
-import com.java110.common.constant.ResponseConstant;
-import com.java110.common.constant.ServiceCodeConstant;
-import com.java110.common.exception.ListenerExecuteException;
-import com.java110.common.util.Assert;
+import com.java110.utils.constant.BusinessTypeConstant;
+import com.java110.utils.constant.CommonConstant;
+import com.java110.utils.constant.ResponseConstant;
+import com.java110.utils.constant.ServiceCodeConstant;
+import com.java110.utils.exception.ListenerExecuteException;
+import com.java110.utils.util.Assert;
 import com.java110.core.annotation.Java110Listener;
 import com.java110.core.context.DataFlowContext;
-import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.entity.center.AppService;
 import com.java110.event.service.api.ServiceDataFlowEvent;
 import org.slf4j.Logger;
@@ -126,6 +125,7 @@ public class SaveParkingSpaceListener extends AbstractServiceApiDataFlowListener
         Assert.jsonObjectHaveKey(paramIn, "num", "请求报文中未包含age");
         Assert.jsonObjectHaveKey(paramIn, "area", "请求报文中未包含name");
         Assert.jsonObjectHaveKey(paramIn, "typeCd", "请求报文中未包含link");
+        Assert.jsonObjectHaveKey(paramIn, "userId", "请求报文中未包含userId");
 
         JSONObject paramObj = JSONObject.parseObject(paramIn);
 

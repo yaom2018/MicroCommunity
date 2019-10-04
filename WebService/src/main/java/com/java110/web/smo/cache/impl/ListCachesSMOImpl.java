@@ -1,17 +1,15 @@
 package com.java110.web.smo.cache.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.constant.PrivilegeCodeConstant;
-import com.java110.common.constant.ServiceConstant;
-import com.java110.common.exception.SMOException;
-import com.java110.common.util.Assert;
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.constant.PrivilegeCodeConstant;
+import com.java110.utils.constant.ServiceConstant;
+import com.java110.utils.exception.SMOException;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.context.IPageData;
 import com.java110.entity.component.ComponentValidateResult;
 import com.java110.web.core.AbstractComponentSMO;
 import com.java110.web.smo.cache.IListCachesSMO;
-import com.java110.web.smo.serviceRegister.IListServiceRegistersSMO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -52,7 +50,6 @@ public class ListCachesSMOImpl extends AbstractComponentSMO implements IListCach
         paramIn.putAll(paramMap);
         int page = paramIn.getInteger("page");
         paramIn.put("page", ( page - 1)* paramIn.getInteger("row"));
-        paramIn.put("row", page * paramIn.getInteger("row"));
 
         String apiUrl = ServiceConstant.SERVICE_API_URL + "/api/query.console.caches" + mapToUrlParam(paramIn);
         ResponseEntity<String> responseEntity = this.callCenterService(restTemplate, pd, "",

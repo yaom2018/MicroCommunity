@@ -1,8 +1,8 @@
 package com.java110.community.smo.impl;
 
 
-import com.java110.common.constant.StatusConstant;
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.constant.StatusConstant;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.community.dao.IMappingServiceDao;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.mapping.IMappingInnerServiceSMO;
@@ -41,7 +41,6 @@ public class MappingInnerServiceSMOImpl extends BaseServiceSMO implements IMappi
 
         if (page != PageDto.DEFAULT_PAGE) {
             mappingDto.setPage((page - 1) * mappingDto.getRow());
-            mappingDto.setRow(page * mappingDto.getRow());
         }
 
         List<MappingDto> mappings = BeanConvertUtil.covertBeanList(mappingServiceDaoImpl.getMappingInfo(BeanConvertUtil.beanCovertMap(mappingDto)), MappingDto.class);

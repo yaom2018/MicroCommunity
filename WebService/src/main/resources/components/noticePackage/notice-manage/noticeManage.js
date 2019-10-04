@@ -9,7 +9,13 @@
             noticeManageInfo:{
                 notices:[],
                 total:0,
-                records:1
+                records:1,
+                componentShow:'noticeList',
+                conditions:{
+                    title:'',
+                    noticeTypeCd:'',
+                    noticeId:''
+                }
             }
         },
         _initMethod:function(){
@@ -17,6 +23,8 @@
         },
         _initEvent:function(){
             vc.on('noticeManage','listNotice',function(_param){
+                  vc.component.noticeManageInfo.componentShow = 'noticeList';
+
                   vc.component._listNotices(DEFAULT_PAGE, DEFAULT_ROWS);
             });
              vc.on('pagination','page_event',function(_currentPage){
@@ -25,13 +33,13 @@
         },
         methods:{
             _listNotices:function(_page, _rows){
+                vc.component.noticeManageInfo.conditions.page = _page;
+                vc.component.noticeManageInfo.conditions.row = _rows;
+                vc.component.noticeManageInfo.conditions.communityId = vc.getCurrentCommunity().communityId;
                 var param = {
-                    params:{
-                        page:_page,
-                        row:_rows
-                    }
+                    params:vc.component.noticeManageInfo.conditions
+               };
 
-               }
                //发送get请求
                vc.http.get('noticeManage',
                             'list',
@@ -51,13 +59,25 @@
                            );
             },
             _openAddNoticeModal:function(){
-                vc.emit('addNotice','openAddNoticeModal',{});
+                vc.component.noticeManageInfo.componentShow = 'addNoticeView';
+                vc.emit('addNoticeView','openAddNoticeView',{});
+
             },
             _openEditNoticeModel:function(_notice){
-                vc.emit('editNotice','openEditNoticeModal',_notice);
+
+                vc.emit('editNoticeViewInfo','noticeEditNoticeInfo',_notice);
+                vc.component.noticeManageInfo.componentShow = 'editNoticeView';
             },
             _openDeleteNoticeModel:function(_notice){
                 vc.emit('deleteNotice','openDeleteNoticeModal',_notice);
+            },
+            _openNoticeDetail:function(_notice){
+                vc.jumpToPage("/flow/noticeDetailFlow?noticeId="+_notice.noticeId);
+
+            },
+            _queryNoticeMethod:function(){
+                vc.component._listNotices(DEFAULT_PAGE, DEFAULT_ROWS);
+
             }
         }
     });

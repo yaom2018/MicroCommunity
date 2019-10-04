@@ -3,11 +3,11 @@ package com.java110.api.listener.parkingSpace;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.listener.AbstractServiceApiDataFlowListener;
-import com.java110.common.constant.*;
-import com.java110.common.exception.ListenerExecuteException;
-import com.java110.common.util.Assert;
-import com.java110.common.util.BeanConvertUtil;
-import com.java110.common.util.DateUtil;
+import com.java110.utils.constant.*;
+import com.java110.utils.exception.ListenerExecuteException;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.DateUtil;
 import com.java110.core.annotation.Java110Listener;
 import com.java110.core.context.DataFlowContext;
 import com.java110.core.factory.GenerateCodeFactory;
@@ -23,8 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -242,7 +243,6 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
         Assert.jsonObjectHaveKey(paramIn, "carColor", "未包含carColor");
         Assert.jsonObjectHaveKey(paramIn, "psId", "未包含psId");
         Assert.jsonObjectHaveKey(paramIn, "storeId", "未包含storeId");
-        Assert.jsonObjectHaveKey(paramIn, "storeId", "未包含storeId");
         Assert.jsonObjectHaveKey(paramIn, "receivedAmount", "未包含receivedAmount");
         Assert.jsonObjectHaveKey(paramIn, "sellOrHire", "未包含sellOrHire");
 
@@ -328,8 +328,15 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
         paramInJson.put("cycles", cycles);
 
         //计算结束时间
+        String endTime = "2038-01-01 00:00:00";
+        if(isHireParkingSpace(paramInJson)) {
+            Date et = DateUtil.getCurrentDate();
+            Calendar endCalender = Calendar.getInstance();
+            endCalender.setTime(et);
+            endCalender.add(Calendar.MONTH, Integer.parseInt(paramInJson.getString("cycles")));
+            endTime = DateUtil.getFormatTimeString(endCalender.getTime(), DateUtil.DATE_FORMATE_STRING_A);
+        }
 
-        String endTime = isHireParkingSpace(paramInJson) ? DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A) : "2038-01-01 00:00:00";
         paramInJson.put("endTime", endTime);
 
     }

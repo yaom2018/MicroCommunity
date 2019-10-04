@@ -1,15 +1,14 @@
 package com.java110.web.smo.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.cache.CommonCache;
-import com.java110.common.constant.ServiceConstant;
-import com.java110.common.util.Assert;
-import com.java110.common.util.StringUtil;
+import com.java110.utils.cache.CommonCache;
+import com.java110.utils.cache.MappingCache;
+import com.java110.utils.constant.ServiceConstant;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.StringUtil;
 import com.java110.core.context.IPageData;
 import com.java110.core.factory.AliSendMessageFactory;
 import com.java110.core.factory.AuthenticationFactory;
-import com.java110.core.factory.ValidateCodeFactory;
 import com.java110.web.core.BaseComponentSMO;
 import com.java110.web.smo.IRegisterServiceSMO;
 import org.slf4j.Logger;
@@ -118,14 +117,18 @@ public class RegisterServiceSMOImpl extends BaseComponentSMO implements IRegiste
 
         String verifyCode = AliSendMessageFactory.generateMessageCode();
         ResponseEntity<String> sendMessageResult = null;
+        String verifyStr="演示环境验证码:"+verifyCode;
         try {
+            if("ON".equals(MappingCache.getValue("SMS_SEND_SWITCH"))){
             //开始发送验证码
             AliSendMessageFactory.sendMessage(telInfo.getString("tel"),verifyCode);
 
+                verifyStr ="验证码已下发至您的手机!";
+            }
             //将验证码存入Redis中
             CommonCache.setValue(telInfo.getString("tel")+"_validateTel",verifyCode.toLowerCase(),CommonCache.defaultExpireTime);
 
-            sendMessageResult = new ResponseEntity<>("成功", HttpStatus.OK);
+            sendMessageResult = new ResponseEntity<>(verifyStr, HttpStatus.OK);
 
         }catch (Exception e){
             logger.error("生成验证码失败，",e);

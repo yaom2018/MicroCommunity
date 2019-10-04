@@ -3,8 +3,8 @@ package com.java110.api.listener.community;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.listener.AbstractServiceApiListener;
-import com.java110.common.constant.*;
-import com.java110.common.util.Assert;
+import com.java110.utils.constant.*;
+import com.java110.utils.util.Assert;
 import com.java110.core.context.DataFlowContext;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.entity.center.AppService;
@@ -76,7 +76,7 @@ public class SaveCommunityListener extends AbstractServiceApiListener {
         businessCommunityMember.put("communityId", paramInJson.getString("communityId"));
         businessCommunityMember.put("memberId", paramInJson.getString("storeId"));
         businessCommunityMember.put("memberTypeCd", CommunityMemberTypeConstant.AGENT);
-        businessCommunityMember.put("auditStatusCd", StatusConstant.STATUS_CD_AUDIT_COMPLETE);
+        businessCommunityMember.put("auditStatusCd", StateConstant.AGREE_AUDIT);
         business.getJSONObject(CommonConstant.HTTP_BUSINESS_DATAS).put("businessCommunityMember", businessCommunityMember);
         businesses.add(business);
 
@@ -91,7 +91,7 @@ public class SaveCommunityListener extends AbstractServiceApiListener {
         businessCommunityMember.put("communityId", paramInJson.getString("communityId"));
         businessCommunityMember.put("memberId", "400000000000000001");
         businessCommunityMember.put("memberTypeCd", CommunityMemberTypeConstant.OPT);
-        businessCommunityMember.put("auditStatusCd", StatusConstant.STATUS_CD_AUDIT_COMPLETE);
+        businessCommunityMember.put("auditStatusCd", StateConstant.AGREE_AUDIT);
         business.getJSONObject(CommonConstant.HTTP_BUSINESS_DATAS).put("businessCommunityMember", businessCommunityMember);
         businesses.add(business);
 
@@ -104,7 +104,7 @@ public class SaveCommunityListener extends AbstractServiceApiListener {
         businessCommunityMember.put("communityId", paramInJson.getString("communityId"));
         businessCommunityMember.put("memberId", "400000000000000002");
         businessCommunityMember.put("memberTypeCd", CommunityMemberTypeConstant.DEV);
-        businessCommunityMember.put("auditStatusCd", StatusConstant.STATUS_CD_AUDIT_COMPLETE);
+        businessCommunityMember.put("auditStatusCd", StateConstant.AGREE_AUDIT);
         business.getJSONObject(CommonConstant.HTTP_BUSINESS_DATAS).put("businessCommunityMember", businessCommunityMember);
         businesses.add(business);
 
@@ -143,6 +143,7 @@ public class SaveCommunityListener extends AbstractServiceApiListener {
         business.put(CommonConstant.HTTP_INVOKE_MODEL, CommonConstant.HTTP_INVOKE_MODEL_S);
         JSONObject businessCommunity = new JSONObject();
         businessCommunity.putAll(paramInJson);
+        businessCommunity.put("state","1000");
         //计算 应收金额
         business.getJSONObject(CommonConstant.HTTP_BUSINESS_DATAS).put("businessCommunity", businessCommunity);
         return business;

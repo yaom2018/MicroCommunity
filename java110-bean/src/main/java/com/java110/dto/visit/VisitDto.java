@@ -15,69 +15,31 @@ import java.util.Date;
  **/
 public class VisitDto extends PageDto implements Serializable {
 
-    private String vId;
-    private String departureTime;
-    private String visitTime;
-    private String phoneNumber;
-    private String name;
-    private String visitCase;
+    private Date departureTime;
+    private String vName;
     private String visitGender;
-    private String visitGenderName;
     private String ownerId;
     private String userId;
+    private String vId;
+    private Date visitTime;
+    private String phoneNumber;
+    private String visitCase;
+    private String communityId;
 
-
-    private Date createTime;
-
-    private String statusCd = "0";
-
-
-    public String getVId() {
-        return vId;
-    }
-
-    public void setVId(String vId) {
-        this.vId = vId;
-    }
-
-    public String getDepartureTime() {
+    public Date getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(String departureTime) {
+    public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
     }
 
-    public String getVisitTime() {
-        return visitTime;
+    public String getvName() {
+        return vName;
     }
 
-    public void setVisitTime(String visitTime) {
-        this.visitTime = visitTime;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVisitCase() {
-        return visitCase;
-    }
-
-    public void setVisitCase(String visitCase) {
-        this.visitCase = visitCase;
+    public void setvName(String vName) {
+        this.vName = vName;
     }
 
     public String getVisitGender() {
@@ -104,23 +66,6 @@ public class VisitDto extends PageDto implements Serializable {
         this.userId = userId;
     }
 
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getStatusCd() {
-        return statusCd;
-    }
-
-    public void setStatusCd(String statusCd) {
-        this.statusCd = statusCd;
-    }
-
     public String getvId() {
         return vId;
     }
@@ -129,11 +74,35 @@ public class VisitDto extends PageDto implements Serializable {
         this.vId = vId;
     }
 
-    public String getVisitGenderName() {
-        return visitGenderName;
+    public Date getVisitTime() {
+        return visitTime;
     }
 
-    public void setVisitGenderName(String visitGenderName) {
-        this.visitGenderName = visitGenderName;
+    public void setVisitTime(Date visitTime) {
+        this.visitTime = visitTime;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getVisitCase() {
+        return visitCase;
+    }
+
+    public void setVisitCase(String visitCase) {
+        this.visitCase = visitCase;
+    }
+
+    public String getCommunityId() {
+        return communityId;
+    }
+
+    public void setCommunityId(String communityId) {
+        this.communityId = communityId;
     }
 }

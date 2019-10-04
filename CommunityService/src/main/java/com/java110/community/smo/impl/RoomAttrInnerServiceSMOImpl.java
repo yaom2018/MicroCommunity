@@ -2,7 +2,7 @@
 package com.java110.community.smo.impl;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.community.dao.IRoomAttrServiceDao;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.room.IRoomAttrInnerServiceSMO;
@@ -41,7 +41,6 @@ public class RoomAttrInnerServiceSMOImpl extends BaseServiceSMO implements IRoom
 
         if (page != PageDto.DEFAULT_PAGE) {
             roomAttrDto.setPage((page - 1) * roomAttrDto.getRow());
-            roomAttrDto.setRow(page * roomAttrDto.getRow());
         }
 
         List<RoomAttrDto> roomAttrs = BeanConvertUtil.covertBeanList(roomAttrServiceDaoImpl.getRoomAttrInfo(BeanConvertUtil.beanCovertMap(roomAttrDto)), RoomAttrDto.class);

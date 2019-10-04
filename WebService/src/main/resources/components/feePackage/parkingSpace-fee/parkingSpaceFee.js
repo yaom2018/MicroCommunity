@@ -11,6 +11,7 @@
                 total:0,
                 records:1,
                 feeId:'',
+                amount:"-1.00",
                 startTime:'',
                 endTime:''
             }
@@ -21,6 +22,7 @@
         _initEvent:function(){
             vc.on('propertyFee','listFeeDetail',function(_param){
                   vc.component.feeDetailInfo.feeId = _param.feeId;
+                  vc.component.feeDetailInfo.amount = _param.amount;
                   vc.component.listFeeDetail(DEFAULT_PAGE,DEFAULT_ROW);
             });
 
@@ -30,18 +32,30 @@
         },
         methods:{
             initDate:function(){
-                $(".start_time").datetimepicker({format: 'yyyy-mm-dd', language: 'zh-CN',minView: "day"});
-                $(".end_time").datetimepicker({format: 'yyyy-mm-dd', language: 'zh-CN',minView: "hour"});
+                $('.start_time').datetimepicker({
+                    language: 'zh-CN',
+                    format: 'yyyy-mm-dd',
+                    autoClose: 1,
+                    minView: "month",
+                    todayBtn: true
+                });
                 $('.start_time').datetimepicker()
-                          .on('changeDate', function (ev) {
-                            var value = $(".start_time").val();
-                            vc.component.feeDetailInfo.startTime = value ;
-                          });
+                    .on('changeDate', function (ev) {
+                        var value = $(".start_time").val();
+                        vc.component.feeDetailInfo.startTime = value;
+                    });
+                $('.end_time').datetimepicker({
+                    language: 'zh-CN',
+                    format: 'yyyy-mm-dd',
+                    autoClose: 1,
+                    minView: "month",
+                    todayBtn: true
+                });
                 $('.end_time').datetimepicker()
-                              .on('changeDate', function (ev) {
-                                var value = $(".end_time").val();
-                                vc.component.feeDetailInfo.endTime = value ;
-                              });
+                  .on('changeDate', function (ev) {
+                    var value = $(".end_time").val();
+                    vc.component.feeDetailInfo.endTime = value ;
+                  });
             },
             listFeeDetail:function(_page,_row){
                 var param = {

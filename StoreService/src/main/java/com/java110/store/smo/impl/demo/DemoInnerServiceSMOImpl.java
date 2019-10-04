@@ -1,7 +1,7 @@
 package com.java110.store.smo.impl.demo;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.demo.IDemoInnerServiceSMO;
 import com.java110.core.smo.user.IUserInnerServiceSMO;
@@ -42,7 +42,6 @@ public class DemoInnerServiceSMOImpl extends BaseServiceSMO implements IDemoInne
 
         if (page != PageDto.DEFAULT_PAGE) {
             demoDto.setPage((page - 1) * demoDto.getRow());
-            demoDto.setRow(page * demoDto.getRow());
         }
 
         List<DemoDto> demos = BeanConvertUtil.covertBeanList(demoServiceDaoImpl.getDemoInfo(BeanConvertUtil.beanCovertMap(demoDto)), DemoDto.class);

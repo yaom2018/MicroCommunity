@@ -1,11 +1,13 @@
 package com.java110.web.smo.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.constant.PrivilegeCodeConstant;
-import com.java110.common.constant.ResponseConstant;
-import com.java110.common.constant.ServiceConstant;
-import com.java110.common.exception.SMOException;
-import com.java110.common.util.Assert;
+import com.java110.utils.constant.FeeTypeConstant;
+import com.java110.utils.constant.PrivilegeCodeConstant;
+import com.java110.utils.constant.ResponseConstant;
+import com.java110.utils.constant.ServiceConstant;
+import com.java110.utils.exception.SMOException;
+import com.java110.utils.util.Assert;
 import com.java110.core.context.IPageData;
 import com.java110.web.core.BaseComponentSMO;
 import com.java110.web.smo.IRoomServiceSMO;
@@ -17,6 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 房屋服务实现类
@@ -117,6 +122,43 @@ public class RoomServiceSMOImpl extends BaseComponentSMO implements IRoomService
         responseEntity = this.callCenterService(restTemplate, pd, "",
                 apiUrl,
                 HttpMethod.GET);
+
+        //fee.queryFee
+
+        if (responseEntity.getStatusCode() != HttpStatus.OK) {
+            return responseEntity;
+        }
+
+        JSONObject roomInfo = JSONObject.parseObject(responseEntity.getBody().toString());
+        JSONArray rooms = roomInfo.getJSONArray("rooms");
+
+        Map feeMap = null;
+        JSONObject resultFeeInfo = null;
+        JSONObject roomObj = null;
+        for (int roomIndex = 0; roomIndex < rooms.size(); roomIndex++) {
+            roomObj = rooms.getJSONObject(roomIndex);
+            feeMap = new HashMap();
+            feeMap.put("communityId", communityId);
+            feeMap.put("feeTypeCd", FeeTypeConstant.FEE_TYPE_PROPERTY);
+            feeMap.put("roomId", roomObj.getString("roomId"));
+            apiUrl = ServiceConstant.SERVICE_API_URL + "/api/fee.queryFee" + mapToUrlParam(feeMap);
+            responseEntity = this.callCenterService(restTemplate, pd, "",
+                    apiUrl,
+                    HttpMethod.GET);
+
+            if (responseEntity.getStatusCode() != HttpStatus.OK) {
+                //throw new SMOException(ResponseConstant.RESULT_CODE_ERROR, "当前房屋[" + roomObj.getString("roomNum") + "]没有物业费信息，数据错误");
+
+                continue;
+            }
+
+            resultFeeInfo = JSONObject.parseObject(responseEntity.getBody().toString());
+            roomObj.putAll(resultFeeInfo);
+
+        }
+
+        responseEntity = new ResponseEntity(roomInfo.toJSONString(), HttpStatus.OK);
+
         return responseEntity;
     }
 
@@ -338,6 +380,7 @@ public class RoomServiceSMOImpl extends BaseComponentSMO implements IRoomService
 
     /**
      * 校验根据业主查询房屋信息
+     *
      * @param pd 页面数据封装
      */
     private void validateListRoomByOwner(IPageData pd) {
@@ -383,11 +426,11 @@ public class RoomServiceSMOImpl extends BaseComponentSMO implements IRoomService
         Assert.jsonObjectHaveKey(pd.getReqData(), "unitId", "请求报文中未包含unitId节点");
         Assert.jsonObjectHaveKey(pd.getReqData(), "roomNum", "请求报文中未包含roomNum节点");
         Assert.jsonObjectHaveKey(pd.getReqData(), "layer", "请求报文中未包含layer节点");
-        Assert.jsonObjectHaveKey(pd.getReqData(), "section", "请求报文中未包含section节点");
+        /*Assert.jsonObjectHaveKey(pd.getReqData(), "section", "请求报文中未包含section节点");*/
         Assert.jsonObjectHaveKey(pd.getReqData(), "apartment", "请求报文中未包含apartment节点");
         Assert.jsonObjectHaveKey(pd.getReqData(), "builtUpArea", "请求报文中未包含builtUpArea节点");
         Assert.jsonObjectHaveKey(pd.getReqData(), "state", "请求报文中未包含state节点");
-        Assert.jsonObjectHaveKey(pd.getReqData(), "unitPrice", "请求报文中未包含unitPrice节点");
+        /*Assert.jsonObjectHaveKey(pd.getReqData(), "unitPrice", "请求报文中未包含unitPrice节点");*/
         JSONObject reqJson = JSONObject.parseObject(pd.getReqData());
 
         Assert.hasLength(reqJson.getString("communityId"), "小区ID不能为空");
@@ -395,9 +438,9 @@ public class RoomServiceSMOImpl extends BaseComponentSMO implements IRoomService
         Assert.isMoney(reqJson.getString("builtUpArea"), "建筑面积数据格式错误");
         Assert.isMoney(reqJson.getString("unitPrice"), "房屋单价数据格式错误");
 
-        if (!"1010".equals(reqJson.getString("apartment")) && !"2020".equals(reqJson.getString("apartment"))) {
+       /* if (!"1010".equals(reqJson.getString("apartment")) && !"2020".equals(reqJson.getString("apartment"))) {
             throw new IllegalArgumentException("不是有效房屋户型 传入数据错误");
-        }
+        }*/
 
         if (!"2001".equals(reqJson.getString("state"))
                 && !"2002".equals(reqJson.getString("state"))

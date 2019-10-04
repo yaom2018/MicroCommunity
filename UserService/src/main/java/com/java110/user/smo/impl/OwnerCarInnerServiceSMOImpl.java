@@ -1,7 +1,7 @@
 package com.java110.user.smo.impl;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.owner.IOwnerCarInnerServiceSMO;
 import com.java110.core.smo.user.IUserInnerServiceSMO;
@@ -42,7 +42,6 @@ public class OwnerCarInnerServiceSMOImpl extends BaseServiceSMO implements IOwne
 
         if (page != PageDto.DEFAULT_PAGE) {
             ownerCarDto.setPage((page - 1) * ownerCarDto.getRow());
-            ownerCarDto.setRow(page * ownerCarDto.getRow());
         }
 
         List<OwnerCarDto> ownerCars = BeanConvertUtil.covertBeanList(ownerCarServiceDaoImpl.getOwnerCarInfo(BeanConvertUtil.beanCovertMap(ownerCarDto)), OwnerCarDto.class);

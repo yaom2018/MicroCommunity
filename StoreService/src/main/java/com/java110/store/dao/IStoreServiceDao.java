@@ -1,11 +1,7 @@
 package com.java110.store.dao;
 
 
-import com.java110.common.exception.DAOException;
-import com.java110.entity.merchant.BoMerchant;
-import com.java110.entity.merchant.BoMerchantAttr;
-import com.java110.entity.merchant.Merchant;
-import com.java110.entity.merchant.MerchantAttr;
+import com.java110.utils.exception.DAOException;
 
 
 import java.util.List;
@@ -263,5 +259,15 @@ public interface IStoreServiceDao {
      * @throws DAOException
      */
     public void updateStoreUserInstance(Map info) throws DAOException;
+
+
+    /**
+     * 查询商户信息（instance过程）
+     * 根据bId 查询商户信息
+     * @param info bId 信息
+     * @return 商户信息
+     * @throws DAOException
+     */
+    public List<Map> getStores(Map info) throws DAOException;
 
 }

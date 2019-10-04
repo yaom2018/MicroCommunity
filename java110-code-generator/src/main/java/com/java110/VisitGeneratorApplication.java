@@ -19,7 +19,7 @@ public class VisitGeneratorApplication {
     /**
      * 代码生成器 入口方法
      *  此处生成的mapper文件包含过程表和实例表的sql,所以要求两张表的特殊字段也要写上
-     *   BusinessTypeCd 在java110\common\constant\BusinessTypeConstant.java
+     *   BusinessTypeCd
      * @param args 参数
      */
     public static void main(String[] args) {
@@ -36,19 +36,21 @@ public class VisitGeneratorApplication {
         data.setUpdateBusinessTypeCdValue("110100040001");
         data.setDeleteBusinessTypeCdValue("110100050001");
         data.setBusinessTableName("business_visit_info");
-        data.setTableName("visit_info");
+        data.setTableName("s_visit_info");
         Map<String, String> param = new HashMap<String, String>();
         param.put("vId", "v_id");       //map的key为你自定义的字段名就是驼峰命名法的那个，value为数据库表的字段名
-        param.put("name", "name");
+        param.put("vName", "v_name");
+        param.put("communityId", "community_id");
         param.put("visitGender", "visit_gender");
-        param.put("phoneNumber", "phoneNumber");
-        param.put("userId", "userId");
+        param.put("phoneNumber", "phone_number");
+        param.put("userId", "user_id");
         param.put("ownerId", "owner_id");
         param.put("visitCase", "visit_case");
         param.put("visitTime", "visit_time");
         param.put("departureTime", "departure_time");
         param.put("statusCd", "status_cd");
         param.put("operate", "operate");
+        param.put("bId", "b_id");
         data.setParams(param);
         GeneratorSaveInfoListener generatorSaveInfoListener = new GeneratorSaveInfoListener();
         generatorSaveInfoListener.generator(data);

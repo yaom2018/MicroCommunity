@@ -1,7 +1,7 @@
 package com.java110.community.smo.impl;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.community.dao.IAppServiceDao;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.app.IAppInnerServiceSMO;
@@ -42,7 +42,6 @@ public class AppInnerServiceSMOImpl extends BaseServiceSMO implements IAppInnerS
 
         if (page != PageDto.DEFAULT_PAGE) {
             appDto.setPage((page - 1) * appDto.getRow());
-            appDto.setRow(page * appDto.getRow());
         }
 
         List<AppDto> apps = BeanConvertUtil.covertBeanList(appServiceDaoImpl.getAppInfo(BeanConvertUtil.beanCovertMap(appDto)), AppDto.class);

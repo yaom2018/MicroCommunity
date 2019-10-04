@@ -1,11 +1,13 @@
 package com.java110.dto;
 
+import com.java110.dto.community.CommunityDto;
+
 import java.io.Serializable;
 
 /**
  * 小区成员dto
  */
-public class CommunityMemberDto extends PageDto implements Serializable {
+public class CommunityMemberDto extends CommunityDto implements Serializable {
 
     private String communityMemberId;
 
@@ -18,6 +20,10 @@ public class CommunityMemberDto extends PageDto implements Serializable {
     private String auditStatusCd;
 
     private String statusCd;
+
+    private boolean needCommunityInfo;
+
+    private boolean noAuditEnterCommunity;
 
     public String getCommunityMemberId() {
         return communityMemberId;
@@ -65,5 +71,21 @@ public class CommunityMemberDto extends PageDto implements Serializable {
 
     public void setStatusCd(String statusCd) {
         this.statusCd = statusCd;
+    }
+
+    public boolean isNeedCommunityInfo() {
+        return needCommunityInfo;
+    }
+
+    public void setNeedCommunityInfo(boolean needCommunityInfo) {
+        this.needCommunityInfo = needCommunityInfo;
+    }
+
+    public boolean isNoAuditEnterCommunity() {
+        return noAuditEnterCommunity;
+    }
+
+    public void setNoAuditEnterCommunity(boolean noAuditEnterCommunity) {
+        this.noAuditEnterCommunity = noAuditEnterCommunity;
     }
 }

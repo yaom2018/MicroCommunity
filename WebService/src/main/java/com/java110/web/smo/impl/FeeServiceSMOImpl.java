@@ -2,11 +2,11 @@ package com.java110.web.smo.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.constant.FeeTypeConstant;
-import com.java110.common.constant.PrivilegeCodeConstant;
-import com.java110.common.constant.ServiceConstant;
-import com.java110.common.util.Assert;
-import com.java110.common.util.StringUtil;
+import com.java110.utils.constant.FeeTypeConstant;
+import com.java110.utils.constant.PrivilegeCodeConstant;
+import com.java110.utils.constant.ServiceConstant;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.StringUtil;
 import com.java110.core.context.IPageData;
 import com.java110.web.core.BaseComponentSMO;
 import com.java110.web.smo.IFeeServiceSMO;
@@ -483,9 +483,9 @@ public class FeeServiceSMOImpl extends BaseComponentSMO implements IFeeServiceSM
         Assert.isMoney(reqJson.getString("builtUpArea"), "建筑面积数据格式错误");
         Assert.isMoney(reqJson.getString("unitPrice"), "房屋单价数据格式错误");
 
-        if (!"1010".equals(reqJson.getString("apartment")) && !"2020".equals(reqJson.getString("apartment"))) {
+       /* if (!"1010".equals(reqJson.getString("apartment")) && !"2020".equals(reqJson.getString("apartment"))) {
             throw new IllegalArgumentException("不是有效房屋户型 传入数据错误");
-        }
+        }*/
 
         if (!"2001".equals(reqJson.getString("state"))
                 && !"2002".equals(reqJson.getString("state"))

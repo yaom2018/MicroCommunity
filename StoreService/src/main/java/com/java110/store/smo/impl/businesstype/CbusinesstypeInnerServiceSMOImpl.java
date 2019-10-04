@@ -1,7 +1,7 @@
 package com.java110.store.smo.impl.businesstype;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.businesstype.ICbusinesstypeInnerServiceSMO;
 import com.java110.core.smo.user.IUserInnerServiceSMO;
@@ -42,7 +42,6 @@ public class CbusinesstypeInnerServiceSMOImpl extends BaseServiceSMO implements 
 
         if (page != PageDto.DEFAULT_PAGE) {
             cbusinesstypeDto.setPage((page - 1) * cbusinesstypeDto.getRow());
-            cbusinesstypeDto.setRow(page * cbusinesstypeDto.getRow());
         }
 
         List<CbusinesstypeDto> cbusinesstypes = BeanConvertUtil.covertBeanList(cbusinesstypeServiceDaoImpl.getCbusinesstypeInfo(BeanConvertUtil.beanCovertMap(cbusinesstypeDto)), CbusinesstypeDto.class);

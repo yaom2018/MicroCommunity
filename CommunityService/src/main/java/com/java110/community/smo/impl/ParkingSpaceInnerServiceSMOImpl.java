@@ -1,7 +1,7 @@
 package com.java110.community.smo.impl;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.community.dao.IParkingSpaceServiceDao;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.parkingSpace.IParkingSpaceInnerServiceSMO;
@@ -42,7 +42,6 @@ public class ParkingSpaceInnerServiceSMOImpl extends BaseServiceSMO implements I
 
         if (page != PageDto.DEFAULT_PAGE) {
             parkingSpaceDto.setPage((page - 1) * parkingSpaceDto.getRow());
-            parkingSpaceDto.setRow(page * parkingSpaceDto.getRow());
         }
 
         List<ParkingSpaceDto> parkingSpaces = BeanConvertUtil.covertBeanList(parkingSpaceServiceDaoImpl.getParkingSpaceInfo(BeanConvertUtil.beanCovertMap(parkingSpaceDto)), ParkingSpaceDto.class);

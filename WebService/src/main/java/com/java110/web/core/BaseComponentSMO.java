@@ -2,13 +2,13 @@ package com.java110.web.core;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.cache.MappingCache;
-import com.java110.common.constant.MappingConstant;
-import com.java110.common.constant.ResponseConstant;
-import com.java110.common.constant.ServiceConstant;
-import com.java110.common.exception.SMOException;
-import com.java110.common.factory.ApplicationContextFactory;
-import com.java110.common.util.Assert;
+import com.java110.utils.cache.MappingCache;
+import com.java110.utils.constant.MappingConstant;
+import com.java110.utils.constant.ResponseConstant;
+import com.java110.utils.constant.ServiceConstant;
+import com.java110.utils.exception.SMOException;
+import com.java110.utils.factory.ApplicationContextFactory;
+import com.java110.utils.util.Assert;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.context.IPageData;
 import com.java110.entity.component.ComponentValidateResult;
@@ -224,6 +224,32 @@ public class BaseComponentSMO extends BaseServiceSMO {
             checkStoreEnterCommunity(pd, storeId, storeTypeCd, communityId, restTemplate);
         }
         return new ComponentValidateResult(storeId, storeTypeCd, communityId, pd.getUserId());
+    }
+
+    /**
+     * 校验 员工 商户 关系
+     * <p>
+     * 判断员工和商户是否有关系， 商户和 是否有关系
+     *
+     * @param pd           页面数据封装
+     * @param restTemplate http调用工具
+     * @return ComponentValidateResult 校验对象
+     */
+    protected ComponentValidateResult validateStoreStaffRelationship(IPageData pd, RestTemplate restTemplate) {
+
+        // 校验 员工和商户是否有关系
+        ResponseEntity responseEntity = getStoreInfo(pd, restTemplate);
+        if (responseEntity.getStatusCode() != HttpStatus.OK) {
+            throw new SMOException(ResponseConstant.RESULT_CODE_ERROR, responseEntity.getBody() + "");
+        }
+
+        Assert.jsonObjectHaveKey(responseEntity.getBody().toString(), "storeId", "根据用户ID查询商户ID失败，未包含storeId节点");
+        Assert.jsonObjectHaveKey(responseEntity.getBody().toString(), "storeTypeCd", "根据用户ID查询商户类型失败，未包含storeTypeCd节点");
+
+        String storeId = JSONObject.parseObject(responseEntity.getBody().toString()).getString("storeId");
+        String storeTypeCd = JSONObject.parseObject(responseEntity.getBody().toString()).getString("storeTypeCd");
+
+        return new ComponentValidateResult(storeId, storeTypeCd, "", pd.getUserId());
     }
 
     /**

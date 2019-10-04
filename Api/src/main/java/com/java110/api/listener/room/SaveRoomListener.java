@@ -3,10 +3,10 @@ package com.java110.api.listener.room;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.listener.AbstractServiceApiDataFlowListener;
-import com.java110.common.constant.BusinessTypeConstant;
-import com.java110.common.constant.CommonConstant;
-import com.java110.common.constant.ServiceCodeConstant;
-import com.java110.common.util.Assert;
+import com.java110.utils.constant.BusinessTypeConstant;
+import com.java110.utils.constant.CommonConstant;
+import com.java110.utils.constant.ServiceCodeConstant;
+import com.java110.utils.util.Assert;
 import com.java110.core.annotation.Java110Listener;
 import com.java110.core.context.DataFlowContext;
 import com.java110.core.smo.unit.IUnitInnerServiceSMO;
@@ -125,9 +125,9 @@ public class SaveRoomListener extends AbstractServiceApiDataFlowListener {
         Assert.isMoney(reqJson.getString("builtUpArea"), "建筑面积数据格式错误");
         Assert.isMoney(reqJson.getString("unitPrice"), "房屋单价数据格式错误");
 
-        if (!"1010".equals(reqJson.getString("apartment")) && !"2020".equals(reqJson.getString("apartment"))) {
+        /*if (!"1010".equals(reqJson.getString("apartment")) && !"2020".equals(reqJson.getString("apartment"))) {
             throw new IllegalArgumentException("不是有效房屋户型 传入数据错误");
-        }
+        }*/
 
         if (!"2001".equals(reqJson.getString("state"))
                 && !"2002".equals(reqJson.getString("state"))

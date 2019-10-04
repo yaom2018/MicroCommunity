@@ -1,8 +1,8 @@
 package com.java110.community.smo.impl;
 
 
-import com.java110.common.constant.StatusConstant;
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.constant.StatusConstant;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.community.dao.IRoomAttrServiceDao;
 import com.java110.community.dao.IRoomServiceDao;
 import com.java110.core.base.smo.BaseServiceSMO;
@@ -50,7 +50,6 @@ public class RoomInnerServiceSMOImpl extends BaseServiceSMO implements IRoomInne
 
         if (page != PageDto.DEFAULT_PAGE) {
             roomDto.setPage((page - 1) * roomDto.getRow());
-            roomDto.setRow(page * roomDto.getRow());
         }
 
         List<RoomDto> rooms = BeanConvertUtil.covertBeanList(roomServiceDaoImpl.getRoomInfoByCommunityId(BeanConvertUtil.beanCovertMap(roomDto)), RoomDto.class);
@@ -157,7 +156,6 @@ public class RoomInnerServiceSMOImpl extends BaseServiceSMO implements IRoomInne
 
         if (page != PageDto.DEFAULT_PAGE) {
             roomDto.setPage((page - 1) * roomDto.getRow());
-            roomDto.setRow(page * roomDto.getRow());
         }
 
         List<RoomDto> rooms = BeanConvertUtil.covertBeanList(roomServiceDaoImpl.getRoomInfoWithOutSellByCommunityId(BeanConvertUtil.beanCovertMap(roomDto)), RoomDto.class);
@@ -196,7 +194,6 @@ public class RoomInnerServiceSMOImpl extends BaseServiceSMO implements IRoomInne
 
         if (page != PageDto.DEFAULT_PAGE) {
             roomDto.setPage((page - 1) * roomDto.getRow());
-            roomDto.setRow(page * roomDto.getRow());
         }
 
         List<RoomDto> rooms = BeanConvertUtil.covertBeanList(roomServiceDaoImpl.getRoomInfoWithSellByCommunityId(BeanConvertUtil.beanCovertMap(roomDto)), RoomDto.class);

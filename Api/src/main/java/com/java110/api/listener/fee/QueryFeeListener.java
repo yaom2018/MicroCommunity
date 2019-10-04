@@ -3,28 +3,24 @@ package com.java110.api.listener.fee;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.listener.AbstractServiceApiDataFlowListener;
-import com.java110.common.constant.ResponseConstant;
-import com.java110.common.constant.ServiceCodeConstant;
-import com.java110.common.exception.ListenerExecuteException;
-import com.java110.common.util.Assert;
-import com.java110.common.util.BeanConvertUtil;
-import com.java110.common.util.DateUtil;
+import com.java110.utils.constant.OwnerTypeConstant;
+import com.java110.utils.constant.ResponseConstant;
+import com.java110.utils.constant.ServiceCodeConstant;
+import com.java110.utils.exception.ListenerExecuteException;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.annotation.Java110Listener;
 import com.java110.core.context.DataFlowContext;
-import com.java110.core.smo.fee.IFeeConfigInnerServiceSMO;
 import com.java110.core.smo.fee.IFeeInnerServiceSMO;
 import com.java110.core.smo.floor.IFloorInnerServiceSMO;
 import com.java110.core.smo.owner.IOwnerInnerServiceSMO;
 import com.java110.core.smo.owner.IOwnerRoomRelInnerServiceSMO;
 import com.java110.core.smo.room.IRoomInnerServiceSMO;
 import com.java110.core.smo.unit.IUnitInnerServiceSMO;
-import com.java110.dto.FeeConfigDto;
 import com.java110.dto.FeeDto;
-import com.java110.dto.FloorDto;
 import com.java110.dto.OwnerDto;
 import com.java110.dto.OwnerRoomRelDto;
 import com.java110.dto.RoomDto;
-import com.java110.dto.UnitDto;
 import com.java110.event.service.api.ServiceDataFlowEvent;
 import com.java110.vo.api.ApiFeeVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +28,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
@@ -92,6 +87,8 @@ public class QueryFeeListener extends AbstractServiceApiDataFlowListener {
         ResponseEntity<String> responseEntity = null;
         if (feeDtos == null || feeDtos.size() == 0) {
             responseEntity = new ResponseEntity<String>("{}", HttpStatus.OK);
+            dataFlowContext.setResponseEntity(responseEntity);
+            return ;
         }
 
         FeeDto feeDto = feeDtos.get(0);
@@ -125,6 +122,7 @@ public class QueryFeeListener extends AbstractServiceApiDataFlowListener {
         OwnerDto ownerDto = new OwnerDto();
         ownerDto.setOwnerId(ownerRoomRelDtos.get(0).getOwnerId());
         ownerDto.setCommunityId(feeDto.getCommunityId());
+        ownerDto.setOwnerTypeCd(OwnerTypeConstant.OWNER);
         List<OwnerDto> ownerDtos = ownerInnerServiceSMOImpl.queryOwners(ownerDto);
 
         if (ownerDtos == null || ownerDtos.size() != 1) {

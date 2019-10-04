@@ -1,9 +1,9 @@
 package com.java110.community.listener;
 
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.constant.ResponseConstant;
-import com.java110.common.constant.StatusConstant;
-import com.java110.common.exception.ListenerExecuteException;
+import com.java110.utils.constant.ResponseConstant;
+import com.java110.utils.constant.StatusConstant;
+import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.entity.center.Business;
 import com.java110.event.service.AbstractBusinessServiceDataFlowListener;
 import com.java110.community.dao.ICommunityServiceDao;
@@ -43,6 +43,7 @@ public abstract class AbstractCommunityBusinessServiceDataFlowListener extends A
         businessCommunityInfo.put("nearbyLandmarks", businessCommunityInfo.get("nearby_landmarks"));
         businessCommunityInfo.put("mapX", businessCommunityInfo.get("map_x"));
         businessCommunityInfo.put("mapY", businessCommunityInfo.get("map_y"));
+        businessCommunityInfo.put("state", businessCommunityInfo.get("state"));
         businessCommunityInfo.put("statusCd", statusCd);
     }
 
@@ -112,6 +113,7 @@ public abstract class AbstractCommunityBusinessServiceDataFlowListener extends A
         currentCommunityInfo.put("nearbyLandmarks", currentCommunityInfo.get("nearby_landmarks"));
         currentCommunityInfo.put("mapX", currentCommunityInfo.get("map_x"));
         currentCommunityInfo.put("mapY", currentCommunityInfo.get("map_y"));
+        currentCommunityInfo.put("state", currentCommunityInfo.get("state"));
         currentCommunityInfo.put("operate", StatusConstant.OPERATE_DEL);
         getCommunityServiceDaoImpl().saveBusinessCommunityInfo(currentCommunityInfo);
     }

@@ -4,13 +4,27 @@
 (function(vc){
 
     vc.extends({
+        propTypes: {
+           deleteOwnerRoomFlag:vc.propTypes.string='false'
+        },
         data:{
             showOwnerRoomInfo:{
                 ownerId:'',
-                rooms:[]
+                rooms:[],
+                deleteOwnerRoomFlag:$props.deleteOwnerRoomFlag
             }
         },
         _initMethod:function(){
+
+         //加载 业主信息
+            var _ownerId = vc.getParam('ownerId')
+            if(!vc.notNull(_ownerId)){
+                return ;
+            }
+
+            vc.component.showOwnerRoomInfo.ownerId = _ownerId;
+
+            vc.component.loadRooms();
 
         },
         _initEvent:function(){

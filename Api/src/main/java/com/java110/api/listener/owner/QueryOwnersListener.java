@@ -3,9 +3,9 @@ package com.java110.api.listener.owner;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.listener.AbstractServiceApiDataFlowListener;
-import com.java110.common.constant.ServiceCodeConstant;
-import com.java110.common.util.Assert;
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.constant.ServiceCodeConstant;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.annotation.Java110Listener;
 import com.java110.core.context.DataFlowContext;
 import com.java110.core.smo.owner.IOwnerInnerServiceSMO;
@@ -75,6 +75,7 @@ public class QueryOwnersListener extends AbstractServiceApiDataFlowListener {
         }
 
         apiOwnerVo.setRecords((int) Math.ceil((double) total / (double) row));
+
 
         ResponseEntity<String> responseEntity = new ResponseEntity<String>(JSONObject.toJSONString(apiOwnerVo), HttpStatus.OK);
         dataFlowContext.setResponseEntity(responseEntity);

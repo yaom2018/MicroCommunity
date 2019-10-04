@@ -1,13 +1,12 @@
 package com.java110.community.smo.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.community.dao.ICommunityServiceDao;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.community.ICommunityInnerServiceSMO;
 import com.java110.dto.CommunityMemberDto;
 import com.java110.dto.PageDto;
-import com.java110.dto.UserDto;
 import com.java110.dto.community.CommunityDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +40,6 @@ public class CommunityInnerServiceSMOImpl extends BaseServiceSMO implements ICom
 
         if (page != PageDto.DEFAULT_PAGE) {
             communityMemberDto.setPage((page - 1) * communityMemberDto.getRow());
-            communityMemberDto.setRow(page * communityMemberDto.getRow());
         }
 
         List<Map> communityMembers = communityServiceDaoImpl.getCommunityMembers(BeanConvertUtil.beanCovertMap(communityMemberDto));
@@ -65,7 +62,6 @@ public class CommunityInnerServiceSMOImpl extends BaseServiceSMO implements ICom
 
         if (page != PageDto.DEFAULT_PAGE) {
             communityDto.setPage((page - 1) * communityDto.getRow());
-            communityDto.setRow(page * communityDto.getRow());
         }
 
         List<CommunityDto> communitys = BeanConvertUtil.covertBeanList(communityServiceDaoImpl.getCommunityInfoNew(BeanConvertUtil.beanCovertMap(communityDto)), CommunityDto.class);

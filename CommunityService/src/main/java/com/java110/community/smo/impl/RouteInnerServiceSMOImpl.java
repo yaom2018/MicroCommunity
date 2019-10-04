@@ -1,7 +1,7 @@
 package com.java110.community.smo.impl;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.community.dao.IRouteServiceDao;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.service.IRouteInnerServiceSMO;
@@ -40,7 +40,6 @@ public class RouteInnerServiceSMOImpl extends BaseServiceSMO implements IRouteIn
 
         if (page != PageDto.DEFAULT_PAGE) {
             routeDto.setPage((page - 1) * routeDto.getRow());
-            routeDto.setRow(page * routeDto.getRow());
         }
 
         List<RouteDto> routes = BeanConvertUtil.covertBeanList(routeServiceDaoImpl.getRouteInfo(BeanConvertUtil.beanCovertMap(routeDto)), RouteDto.class);

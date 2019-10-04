@@ -1,9 +1,9 @@
 package com.java110.user.smo.impl;
 
 
-import com.java110.common.constant.CommunityMemberTypeConstant;
-import com.java110.common.constant.StatusConstant;
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.constant.CommunityMemberTypeConstant;
+import com.java110.utils.constant.StatusConstant;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.community.ICommunityInnerServiceSMO;
 import com.java110.core.smo.owner.IOwnerInnerServiceSMO;
@@ -163,7 +163,6 @@ public class OwnerInnerServiceSMOImpl extends BaseServiceSMO implements IOwnerIn
 
         if (page != PageDto.DEFAULT_PAGE) {
             ownerDto.setPage((page - 1) * ownerDto.getRow());
-            ownerDto.setRow(page * ownerDto.getRow());
         }
         return ownerServiceDaoImpl.queryOwnersCount(BeanConvertUtil.beanCovertMap(ownerDto));
     }
@@ -176,7 +175,6 @@ public class OwnerInnerServiceSMOImpl extends BaseServiceSMO implements IOwnerIn
 
         if (page != PageDto.DEFAULT_PAGE) {
             ownerDto.setPage((page - 1) * ownerDto.getRow());
-            ownerDto.setRow(page * ownerDto.getRow());
         }
         List<OwnerDto> owners = BeanConvertUtil.covertBeanList(
                 ownerServiceDaoImpl.getOwnerInfoByCondition(BeanConvertUtil.beanCovertMap(ownerDto)), OwnerDto.class);

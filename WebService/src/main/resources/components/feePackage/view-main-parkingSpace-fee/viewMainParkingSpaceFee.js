@@ -25,6 +25,16 @@
             }
         },
         _initMethod:function(){
+             //加载 业主信息
+            var _ownerId = vc.getParam('ownerId')
+            var _psId = vc.getParam('psId')
+
+            if(vc.notNull(_psId)){
+                vc.component.loadMainParkingSpaceFeeInfo({
+                    psId:_psId,
+                    ownerId:_ownerId,
+                });
+            }
 
         },
         _initEvent:function(){
@@ -69,13 +79,14 @@
                              function(json,res){
                                var _fee =JSON.parse(json);
                                vc.copyObject(_fee,vc.component.mainParkingSpaceFeeInfo);
-                               vc.emit('propertyFee','listFeeDetail',{
-                                    feeId:_fee.feeId
-                               });
+                               vc.emit('propertyFee','listFeeDetail',vc.component.mainParkingSpaceFeeInfo);
                              },function(errInfo,error){
                                 console.log('请求失败处理');
                              }
                            );
+            },
+            _openCallBackOwner:function(){
+                  vc.jumpToPage("/flow/ownerFlow");
             }
 
         }

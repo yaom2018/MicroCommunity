@@ -1,10 +1,11 @@
 package com.java110.web.smo.notice.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.java110.common.constant.PrivilegeCodeConstant;
-import com.java110.common.constant.ServiceConstant;
-import com.java110.common.exception.SMOException;
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.constant.PrivilegeCodeConstant;
+import com.java110.utils.constant.ServiceConstant;
+import com.java110.utils.exception.SMOException;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.web.smo.notice.IListNoticesSMO;
 import org.springframework.web.client.RestTemplate;
 import com.java110.core.context.IPageData;
@@ -36,6 +37,8 @@ public class ListNoticesSMOImpl extends AbstractComponentSMO implements IListNot
 
         super.validatePageInfo(pd);
 
+        Assert.hasKeyAndValue(paramIn, "communityId", "请求报文中未包含小区ID");
+
         super.checkUserHasPrivilege(pd, restTemplate, PrivilegeCodeConstant.HAS_LIST_NOTICE);
     }
 
@@ -45,6 +48,8 @@ public class ListNoticesSMOImpl extends AbstractComponentSMO implements IListNot
 
         Map paramMap = BeanConvertUtil.beanCovertMap(result);
         paramIn.putAll(paramMap);
+        //将用户ID刷掉
+        paramIn.remove("userId");
 
         String apiUrl = ServiceConstant.SERVICE_API_URL + "/api/notice.listNotices" + mapToUrlParam(paramIn);
 

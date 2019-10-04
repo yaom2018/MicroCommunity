@@ -3,11 +3,11 @@ package com.java110.api.listener.parkingSpace;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.listener.AbstractServiceApiDataFlowListener;
-import com.java110.common.constant.ResponseConstant;
-import com.java110.common.constant.ServiceCodeConstant;
-import com.java110.common.exception.ListenerExecuteException;
-import com.java110.common.util.Assert;
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.constant.ResponseConstant;
+import com.java110.utils.constant.ServiceCodeConstant;
+import com.java110.utils.exception.ListenerExecuteException;
+import com.java110.utils.util.Assert;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.annotation.Java110Listener;
 import com.java110.core.context.DataFlowContext;
 import com.java110.core.smo.owner.IOwnerCarInnerServiceSMO;
@@ -74,7 +74,7 @@ public class QueryParkingSpacesByOwnerListener extends AbstractServiceApiDataFlo
         //在没有 停车位的情况下 直接返回空
         ResponseEntity<String> responseEntity = null;
         if (ownerCarDtos == null || ownerCarDtos.size() == 0) {
-            responseEntity = new ResponseEntity<String>("[]", HttpStatus.OK);
+            responseEntity = new ResponseEntity<String>("{\"parkingSpaces\":[]}", HttpStatus.OK);
             dataFlowContext.setResponseEntity(responseEntity);
             return;
         }

@@ -1,7 +1,7 @@
 package com.java110.user.smo.impl;
 
 
-import com.java110.common.util.BeanConvertUtil;
+import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.owner.IOwnerRoomRelInnerServiceSMO;
 import com.java110.core.smo.user.IUserInnerServiceSMO;
@@ -42,7 +42,6 @@ public class OwnerRoomRelInnerServiceSMOImpl extends BaseServiceSMO implements I
 
         if (page != PageDto.DEFAULT_PAGE) {
             ownerRoomRelDto.setPage((page - 1) * ownerRoomRelDto.getRow());
-            ownerRoomRelDto.setRow(page * ownerRoomRelDto.getRow());
         }
 
         List<OwnerRoomRelDto> ownerRoomRels = BeanConvertUtil.covertBeanList(ownerRoomRelServiceDaoImpl.getOwnerRoomRelInfo(BeanConvertUtil.beanCovertMap(ownerRoomRelDto)), OwnerRoomRelDto.class);
