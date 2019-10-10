@@ -28,7 +28,8 @@ import java.nio.charset.Charset;
  * @date 2016年8月6日
  * @tag
  */
-@SpringBootApplication(scanBasePackages = {"com.java110.service", "com.java110.comment", "com.java110.core", "com.java110.cache", "com.java110.db"})
+@SpringBootApplication(scanBasePackages = {"com.java110.service", "com.java110.comment",
+        "com.java110.core", "com.java110.cache","com.java110.config.properties.code", "com.java110.db"})
 @EnableDiscoveryClient
 @Java110ListenerDiscovery(listenerPublishClass = BusinessServiceDataFlowEventPublishing.class,
         basePackages = {"com.java110.comment.listener"})
@@ -51,7 +52,11 @@ public class CommentServiceApplicationStart {
     }
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext context = SpringApplication.run(CommentServiceApplicationStart.class, args);
-        ServiceStartInit.initSystemConfig(context);
+        try{
+            ApplicationContext context = SpringApplication.run(CommentServiceApplicationStart.class, args);
+            ServiceStartInit.initSystemConfig(context);
+        }catch (Throwable e){
+            logger.error("系统启动失败",e);
+        }
     }
 }

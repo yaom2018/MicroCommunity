@@ -2,6 +2,8 @@ package com.java110.web;
 
 import com.java110.service.init.ServiceStartInit;
 import com.java110.web.core.VueComponentTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,11 +32,14 @@ import java.nio.charset.Charset;
         "com.java110.service.controller",
         "com.java110.service.filter",
         "com.java110.service.init",
-        "com.java110.web", "com.java110.core", "com.java110.cache"})
+        "com.java110.web", "com.java110.core", "com.java110.config.properties.code","com.java110.cache"})
 @EnableDiscoveryClient
 //@EnableConfigurationProperties(EventProperties.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class WebServiceApplicationStart {
+
+    private static Logger logger = LoggerFactory.getLogger(WebServiceApplicationStart.class);
+
 
     /**
      * 实例化RestTemplate，通过@LoadBalanced注解开启均衡负载能力.
@@ -51,8 +56,12 @@ public class WebServiceApplicationStart {
 
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext context = SpringApplication.run(WebServiceApplicationStart.class, args);
-        ServiceStartInit.initSystemConfig(context);
-        VueComponentTemplate.initComponent(VueComponentTemplate.DEFAULT_COMPONENT_PACKAGE_PATH);
+        try {
+            ApplicationContext context = SpringApplication.run(WebServiceApplicationStart.class, args);
+            ServiceStartInit.initSystemConfig(context);
+            VueComponentTemplate.initComponent(VueComponentTemplate.DEFAULT_COMPONENT_PACKAGE_PATH);
+        }catch (Throwable e){
+            logger.error("系统启动失败",e);
+        }
     }
 }

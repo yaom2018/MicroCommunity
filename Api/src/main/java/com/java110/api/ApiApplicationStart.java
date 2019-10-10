@@ -48,6 +48,7 @@ import java.nio.charset.Charset;
         "com.java110.api",
         "com.java110.core",
         "com.java110.event.service.api",
+        "com.java110.config.properties.code",
         "com.java110.cache"})
 @EnableDiscoveryClient
 @Java110ListenerDiscovery(listenerPublishClass = ServiceDataFlowEventPublishing.class,
@@ -117,10 +118,14 @@ public class ApiApplicationStart {
 
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext context = SpringApplication.run(ApiApplicationStart.class, args);
+        try{
+            ApplicationContext context = SpringApplication.run(ApiApplicationStart.class, args);
 
-        //服务启动加载
-        ServiceStartInit.initSystemConfig(context);
+            //服务启动加载
+            ServiceStartInit.initSystemConfig(context);
+        }catch (Throwable e){
+            logger.error("系统启动失败",e);
+        }
     }
 
 }

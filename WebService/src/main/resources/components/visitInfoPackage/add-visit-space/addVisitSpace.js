@@ -84,7 +84,8 @@
                     communityId:vc.component.newVisitInfo.infos[0]['communityId'],
                     ownerId:vc.component.newVisitInfo.infos[0]['ownerId'],
                     visitCase:vc.component.newVisitInfo.infos[0]['visitCase'],
-                    visitTime:new Date()
+                    visitTime:vc.component.newVisitInfo.infos[0]['visitTime'],
+                    departureTime:vc.component.newVisitInfo.infos[0]['departureTime']
                 }
                 console.log(param);
                vc.http.post(

@@ -29,7 +29,8 @@ import java.nio.charset.Charset;
  * @date 2016年8月6日
  * @tag
  */
-@SpringBootApplication(scanBasePackages = {"com.java110.service", "com.java110.store", "com.java110.core", "com.java110.cache", "com.java110.db"})
+@SpringBootApplication(scanBasePackages = {"com.java110.service", "com.java110.store", "com.java110.core",
+        "com.java110.cache", "com.java110.config.properties.code","com.java110.db"})
 @EnableDiscoveryClient
 @Java110ListenerDiscovery(listenerPublishClass = BusinessServiceDataFlowEventPublishing.class,
         basePackages = {"com.java110.store.listener"})
@@ -63,9 +64,13 @@ public class StoreServiceApplicationStart {
     }
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext context = SpringApplication.run(StoreServiceApplicationStart.class, args);
-        ServiceStartInit.initSystemConfig(context);
-        //加载业务侦听
-        //SystemStartLoadBusinessConfigure.initSystemConfig(LISTENER_PATH);
+        try {
+            ApplicationContext context = SpringApplication.run(StoreServiceApplicationStart.class, args);
+            ServiceStartInit.initSystemConfig(context);
+            //加载业务侦听
+            //SystemStartLoadBusinessConfigure.initSystemConfig(LISTENER_PATH);
+        }catch (Throwable e){
+            logger.error("系统启动失败",e);
+        }
     }
 }

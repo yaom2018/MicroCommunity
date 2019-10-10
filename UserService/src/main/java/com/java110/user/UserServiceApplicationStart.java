@@ -29,7 +29,7 @@ import java.nio.charset.Charset;
  * @tag
  */
 @SpringBootApplication(
-        scanBasePackages = {"com.java110.service", "com.java110.user", "com.java110.core", "com.java110.cache", "com.java110.db"},
+        scanBasePackages = {"com.java110.service", "com.java110.user", "com.java110.core", "com.java110.cache","com.java110.config.properties.code", "com.java110.db"},
         excludeName = {"com.java110.core.smo.user"}
 )
 @EnableDiscoveryClient
@@ -56,9 +56,13 @@ public class UserServiceApplicationStart {
     }
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext context = SpringApplication.run(UserServiceApplicationStart.class, args);
-        ServiceStartInit.initSystemConfig(context);
-        //加载业务侦听
-        // SystemStartLoadBusinessConfigure.initSystemConfig(LISTENER_PATH);
+        try{
+            ApplicationContext context = SpringApplication.run(UserServiceApplicationStart.class, args);
+            ServiceStartInit.initSystemConfig(context);
+            //加载业务侦听
+            // SystemStartLoadBusinessConfigure.initSystemConfig(LISTENER_PATH);
+        }catch (Throwable e){
+            logger.error("系统启动失败",e);
+        }
     }
 }

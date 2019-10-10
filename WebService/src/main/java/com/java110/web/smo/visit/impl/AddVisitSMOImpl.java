@@ -25,8 +25,8 @@ public class AddVisitSMOImpl extends AbstractComponentSMO implements IAddVisitSM
 
     @Override
     protected void validate(IPageData pd, JSONObject paramIn) {
-        System.out.println(paramIn);
-
+        System.out.println("paramIn  "+paramIn);
+        System.out.println("pd     "+pd);
         //super.validatePageInfo(pd);
 
         //Assert.hasKeyAndValue(paramIn, "xxx", "xxx");
@@ -35,6 +35,7 @@ public class AddVisitSMOImpl extends AbstractComponentSMO implements IAddVisitSM
         Assert.hasKeyAndValue(paramIn, "ownerId", "必填，请填写目标业主ID");
         Assert.hasKeyAndValue(paramIn, "phoneNumber", "必填，请填写访客联系方式");
         Assert.hasKeyAndValue(paramIn, "visitTime", "必填，请填写访客拜访时间");
+        Assert.hasKeyAndValue(paramIn, "departureTime", "必填，请填写访客离开时间");
 
 
         super.checkUserHasPrivilege(pd, restTemplate, PrivilegeCodeConstant.AGENT_HAS_LIST_VISIT);

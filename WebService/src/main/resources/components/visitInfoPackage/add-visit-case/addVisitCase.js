@@ -6,13 +6,15 @@
     vc.extends({
         data:{
             addVisitCase:{
-
                 visitCase:""
             }
         },
         watch:{
-            addVisitCase(val){
-                vc.emit('addVisitSpace', 'visitCase', this.addVisitCase.visitCase);
+            addVisitCase:{
+                deep: true,
+                handler:function(){
+                     vc.emit('addVisitSpace', 'visitCase', vc.component.addVisitCase.visitCase);
+                }
             }
         },
         _initMethod:function(){
