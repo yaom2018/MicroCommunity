@@ -79,13 +79,13 @@ public class GenerateCodeFactory {
     public static final String CODE_PREFIX_psId = "79";
     public static final String CODE_PREFIX_carId = "80";
     //测试用列
-    public static final String CODE_PREFIX_demoId="90";
-    public static final String CODE_PREFIX_noticeId="96";
+    public static final String CODE_PREFIX_demoId = "90";
+    public static final String CODE_PREFIX_noticeId = "96";
 
-    public static final String CODE_PREFIX_HCJOBId="96";
+    public static final String CODE_PREFIX_HCJOBId = "96";
     //BUSINESSTYPE
-    public static final String CODE_PREFIX_id="99";
-    public static final String CODE_PREFIX_service_id="98";
+    public static final String CODE_PREFIX_id = "99";
+    public static final String CODE_PREFIX_service_id = "98";
 
     public static final String MENU_GROUP = "80";
     public static final String MENU = "70";
@@ -95,8 +95,14 @@ public class GenerateCodeFactory {
     public static final String CODE_PREFIX_repairId = "82";
     public static final String CODE_PREFIX_ruId = "83";
     public static final String CODE_PREFIX_orgId = "84";
-
-
+    public static final String CODE_PREFIX_relId = "84";
+    public static final String CODE_PREFIX_resId = "85";
+    public static final String CODE_PREFIX_auditUserId = "86";
+    public static final String CODE_PREFIX_auditMessageId = "87";
+    public static final String CODE_PREFIX_complaintId = "88";
+    public static final String CODE_PREFIX_machineId = "89";
+    public static final String CODE_PREFIX_machineTranslateId = "90";
+    public static final String CODE_PREFIX_fileRelId = "91";
 
 
     /**

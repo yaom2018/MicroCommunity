@@ -9,7 +9,7 @@ import com.java110.utils.constant.PrivilegeCodeConstant;
 import com.java110.utils.constant.ServiceConstant;
 import com.java110.utils.exception.SMOException;
 import com.java110.utils.util.BeanConvertUtil;
-import com.java110.web.core.AbstractComponentSMO;
+import com.java110.core.component.AbstractComponentSMO;
 import com.java110.web.smo.ownerRepair.IListOwnerRepairsSMO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -48,6 +48,10 @@ public class ListOwnerRepairsSMOImpl extends AbstractComponentSMO implements ILi
 
         Map paramMap = BeanConvertUtil.beanCovertMap(result);
         paramIn.putAll(paramMap);
+
+        if(paramIn.containsKey("pageFlag") && "myRepairDispatch".equals(paramIn.getString("pageFlag"))){
+            paramIn.put("staffId", result.getUserId());
+        }
 
         String apiUrl = ServiceConstant.SERVICE_API_URL + "/api/ownerRepair.listOwnerRepairs" + mapToUrlParam(paramIn);
 

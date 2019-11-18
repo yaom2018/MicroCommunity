@@ -9,7 +9,7 @@ import com.java110.entity.component.ComponentValidateResult;
 import com.java110.web.smo.addOwner.IAddOwnerRoomBindingSMO;
 import org.springframework.web.client.RestTemplate;
 import com.java110.core.context.IPageData;
-import com.java110.web.core.AbstractComponentSMO;
+import com.java110.core.component.AbstractComponentSMO;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -61,7 +61,21 @@ public class AddOwnerRoomBindingSMOImpl extends AbstractComponentSMO implements 
         newParamIn.put("communityId", communityId);
         newParamIn.put("userId", pd.getUserId());
         newParamIn.put("storeId", result.getStoreId());
-        newParamIn.put("state", "2002");
+        newParamIn.put("state", "2001");
+        //房屋修改信息为已售
+//        newParamIn.put("bId", sellRoomSelectRoom.getString("bId"));
+//        newParamIn.put("roomNum", sellRoomSelectRoom.getString("roomNum"));
+//        newParamIn.put("unitPrice", sellRoomSelectRoom.getString("unitPrice"));
+//        newParamIn.put("builtUpArea", sellRoomSelectRoom.getString("builtUpArea"));
+//        newParamIn.put("roomNum", sellRoomSelectRoom.getString("roomNum"));
+//        newParamIn.put("unitNum", sellRoomSelectRoom.getString("unitNum"));
+//        newParamIn.put("section", sellRoomSelectRoom.getString("section"));
+//        newParamIn.put("flowComponent", sellRoomSelectRoom.getString("flowComponent"));
+//        newParamIn.put("userName", sellRoomSelectRoom.getString("userName"));
+//        newParamIn.put("roomId", sellRoomSelectRoom.getString("roomId"));
+//        newParamIn.put("layer", sellRoomSelectRoom.getString("layer"));
+//        newParamIn.put("apartment", sellRoomSelectRoom.getString("apartment"));
+
         responseEntity = this.callCenterService(restTemplate, pd, newParamIn.toJSONString(),
                 ServiceConstant.SERVICE_API_URL + "/api/room.sellRoom",
                 HttpMethod.POST);

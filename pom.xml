@@ -35,6 +35,11 @@
         <module>java110-db</module>
         <module>JobService</module>
         <module>CommonService</module>
+        <module>ReportService</module>
+        <module>ReportComponent</module>
+        <module>HardwareAdapationService</module>
+        <module>AppFrontService</module>
+        <module>java110-front</module>
     </modules>
 
     <parent>
@@ -174,6 +179,16 @@
             <dependency>
                 <groupId>com.java110</groupId>
                 <artifactId>java110-db</artifactId>
+                <version>${microcommunity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.java110</groupId>
+                <artifactId>java110-front</artifactId>
+                <version>${microcommunity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.java110</groupId>
+                <artifactId>ReportComponent</artifactId>
                 <version>${microcommunity.version}</version>
             </dependency>
             <!-- logback 日志组件支持  -->
@@ -436,13 +451,13 @@
                 <version>4.0.3</version>
             </dependency>
 
-            <!--flowable工作流依赖-->
+            <!--flowable工作流依赖
             <dependency>
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-spring-boot-starter</artifactId>
                 <version>6.4.1</version>
             </dependency>
-
+            -->
             <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
             <dependency>
                 <groupId>org.jsoup</groupId>
@@ -468,6 +483,24 @@
                 <artifactId>poi</artifactId>
                 <version>3.17</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring</artifactId>
+                <version>6.0.0</version>
+            </dependency>
+
+            <!--<dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-modeler</artifactId>
+                <version>5.22.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.activiti</groupId>
+                        <artifactId>activiti-bpmn-model</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>-->
 
         </dependencies>
 

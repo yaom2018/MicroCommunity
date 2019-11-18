@@ -9,8 +9,7 @@ import com.java110.utils.exception.SMOException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.Base64Convert;
 import com.java110.utils.util.BeanConvertUtil;
-import com.java110.web.core.AbstractComponentSMO;
-import com.java110.web.core.BaseComponentSMO;
+import com.java110.core.component.BaseComponentSMO;
 import com.java110.web.smo.file.IGetFileSMO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +33,7 @@ public class GetFileSMOImpl extends BaseComponentSMO implements IGetFileSMO {
     private RestTemplate restTemplate;
 
     @Override
-    public ResponseEntity<Object> getFile(IPageData pd) throws SMOException,IOException {
+    public ResponseEntity<Object> getFile(IPageData pd) throws SMOException, IOException {
         JSONObject paramIn = JSONObject.parseObject(pd.getReqData());
 
         Assert.hasKeyAndValue(paramIn, "communityId", "请求报文中未包含小区ID");
@@ -47,7 +46,7 @@ public class GetFileSMOImpl extends BaseComponentSMO implements IGetFileSMO {
         Map paramMap = BeanConvertUtil.beanCovertMap(result);
         paramIn.putAll(paramMap);
 
-        String apiUrl = ServiceConstant.SERVICE_API_URL + "/api/file.getFile"+mapToUrlParam(paramIn);
+        String apiUrl = ServiceConstant.SERVICE_API_URL + "/api/file.getFile" + mapToUrlParam(paramIn);
 
 
         ResponseEntity<String> responseEntity = this.callCenterService(restTemplate, pd, paramIn.toJSONString(),
@@ -56,7 +55,7 @@ public class GetFileSMOImpl extends BaseComponentSMO implements IGetFileSMO {
 
         //处理文件下载功能
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
-            return new ResponseEntity<Object>(responseEntity.getBody(),responseEntity.getStatusCode());
+            return new ResponseEntity<Object>(responseEntity.getBody(), responseEntity.getStatusCode());
         }
 
         JSONObject outParam = JSONObject.parseObject(responseEntity.getBody());
@@ -69,9 +68,9 @@ public class GetFileSMOImpl extends BaseComponentSMO implements IGetFileSMO {
         //headers.add("Content-Disposition", "attachment; filename=" + outParam.getString("fileName"));
         headers.add("Accept-Ranges", "bytes");
 
-        byte[] context = Base64Convert.base64ToByte(outParam.getString("context"));
+        byte[] context = Base64Convert.base64ToByte(outParam.getString("context").replace("data:image/webp;base64,", ""));
 
-        return new ResponseEntity<Object>(context,headers,HttpStatus.OK);
+        return new ResponseEntity<Object>(context, headers, HttpStatus.OK);
     }
 
     public RestTemplate getRestTemplate() {

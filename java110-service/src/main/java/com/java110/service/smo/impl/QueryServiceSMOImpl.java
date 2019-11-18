@@ -249,7 +249,10 @@ public class QueryServiceSMOImpl extends LoggerEngine implements IQueryServiceSM
 
             String currentSql = sqlObj.getString(dataQuery.getTemplateKey());
             //处理 if 判断
+            logger.debug("dealSqlIf开始处理sql中的<if>节点 " + currentSql + " 入参:" + params.toJSONString());
             currentSql = dealSqlIf(currentSql, params);
+            logger.debug("dealSqlIf处理完成sql中的<if>节点 " + currentSql + " 入参:" + params.toJSONString());
+
 
             String[] sqls = currentSql.split("#");
             String currentSqlNew = "";
@@ -281,7 +284,7 @@ public class QueryServiceSMOImpl extends LoggerEngine implements IQueryServiceSM
                         param = params.getInteger(sqls[sqlIndex]);
                     }
                     //这里对 page 和 rows 特殊处理 ，目前没有想到其他的办法
-                    if (StringUtils.isNumeric(param.toString()) && "page,rows".contains(sqls[sqlIndex])) {
+                    if (StringUtils.isNumeric(param.toString()) && "page,rows,row".contains(sqls[sqlIndex])) {
                         param = Integer.parseInt(param.toString());
                     }
                     currentParams.add(param);
@@ -340,6 +343,11 @@ public class QueryServiceSMOImpl extends LoggerEngine implements IQueryServiceSM
 
         String[] oSqls = oldSql.split("</if>");
         for (String oSql : oSqls) {
+            logger.debug("处理if 节点，当前处理的oSql=" + oSql + "总的oSqls = " + oSqls);
+            if(StringUtil.isNullOrNone(oSql) || !oSql.contains("<if")){
+                newSql.append(oSql);
+                continue;
+            }
             if (!oSql.startsWith("<if")) {
                 newSql.append(oSql.substring(0, oSql.indexOf("<if")));
             }
@@ -364,10 +372,11 @@ public class QueryServiceSMOImpl extends LoggerEngine implements IQueryServiceSM
                 newSql.append(root.getText());
             }
 
+
         }
 
 
-        return newSql.toString();
+        return newSql.toString().replace("&gt;", ">").replace("&lt;", "<");
 
     }
 

@@ -142,6 +142,24 @@ public interface ICenterServiceDAO {
      */
     public List<Mapping> getMappingInfoAll();
 
+    /**
+     * 查询业主 添加 修改 删除订单
+     * @param info
+     * @return
+     */
+    public List<Map> queryOwenrOrders(Map info);
+    /**
+     * 查询业主 添加 修改 删除订单
+     * @param info
+     * @return
+     */
+    public int updateBusinessStatusCd(Map info);
+
+
+
+    public List<Map> queryManchineOrders(Map info);
+
+
 
 
 }

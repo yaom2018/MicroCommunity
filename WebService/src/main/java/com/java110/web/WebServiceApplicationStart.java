@@ -1,7 +1,7 @@
 package com.java110.web;
 
 import com.java110.service.init.ServiceStartInit;
-import com.java110.web.core.VueComponentTemplate;
+import com.java110.front.core.VueComponentTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -32,7 +32,13 @@ import java.nio.charset.Charset;
         "com.java110.service.controller",
         "com.java110.service.filter",
         "com.java110.service.init",
-        "com.java110.web", "com.java110.core", "com.java110.config.properties.code","com.java110.cache"})
+        "com.java110.web",
+        "com.java110.core",
+        "com.java110.config.properties.code",
+        "com.java110.cache",
+        "com.java110.report",
+        "com.java110.front"
+})
 @EnableDiscoveryClient
 //@EnableConfigurationProperties(EventProperties.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})

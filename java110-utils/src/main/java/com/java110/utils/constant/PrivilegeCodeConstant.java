@@ -50,7 +50,6 @@ public final class PrivilegeCodeConstant {
     public static final String PRIVILEGE_CAR = "500201906019";
 
 
-
     //停车费用配置权限
     public static final String PRIVILEGE_PARKING_SPACE_CONFIG_FEE = "500201904021";
 
@@ -79,7 +78,7 @@ public final class PrivilegeCodeConstant {
     /**
      * 访客相关权限常量
      */
-    public static final String AGENT_HAS_LIST_VISIT="500201907033";
+    public static final String AGENT_HAS_LIST_VISIT = "500201907033";
 
     /**
      * 服务提供权限编码
@@ -101,6 +100,43 @@ public final class PrivilegeCodeConstant {
     public static final String LIST_OWNERREPAIR = "502019100524950005";
 
     public static final String LIST_ORG = "502019100721900005";
+
+
+    public static final String ADD_STAFF = "";
+
+    public static final String REPAIRDISPATCHSTEP = "502019101946430010";
+
+    public static final String CLOSE_REPAIR_DISPATCH = "502019102010870005";
+
+
+    //资源商品
+    public static final String AGENT_HAS_LIST_RESOURCESTORE = "502019102151130004";
+
+
+    public static final String ITEMOUT = "5020191023000001";
+
+    //審核人員 审核人员
+    public static final String AGENT_HAS_LIST_AUDITUSER = "502019102639930001";
+
+    //审核工单
+    public static final String AGENT_HAS_LIST_AUDITORDER = "502019102911270009";
+
+    public static final String LIST_PAY_FEE = "502019103056060006";
+
+    //投诉建议 权限编码
+    public static final String AGENT_HAS_LIST_COMPLAINT = "502019103114270018";
+
+    //员工收费
+    public static final String LIST_STAFF_FEE = "502019103108450011";
+
+
+    //审核工单
+    public static final String AGENT_HAS_LIST_AUDIT_COMPLAINT = "502019110360380006";
+    public static final String AGENT_HAS_LIST_AUDIT_HISTORY_COMPLAINT = "502019110534240006";
+
+    //设备信息
+    public static final String AGENT_HAS_LIST_MACHINE = "502019110809250044";
+    public static final String AGENT_HAS_LIST_MACHINE_TRANSLATE = "502019111025350052";
 
 
 

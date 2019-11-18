@@ -12,17 +12,47 @@
                 records:1,
                 moreCondition:false,
                 orgName:'',
+                headOrg:[],
+                branchOrg:[],
                 conditions:{
+                    headOrgId:'',
+                    branchOrgId:'',
                     orgId:'',
                     orgName:'',
                     orgLevel:'',
                     parentOrgId:'',
-
                 }
             }
         },
+        watch:{
+            "orgManageInfo.conditions.headOrgId":{//深度监听，可监听到对象、数组的变化
+                handler(val, oldVal){
+                   vc.component._getOrgsByOrgLevel(DEFAULT_PAGE, DEFAULT_ROWS,2,val);
+
+                   vc.component.orgManageInfo.conditions.parentOrgId = val;
+
+                   vc.component.orgManageInfo.conditions.branchOrgId = '';
+
+                   vc.component._listOrgs(DEFAULT_PAGE, DEFAULT_ROWS);
+
+                },
+                deep:true
+            },
+            "orgManageInfo.conditions.branchOrgId":{//深度监听，可监听到对象、数组的变化
+                handler(val, oldVal){
+                    if(val == ''){
+                        vc.component.orgManageInfo.conditions.parentOrgId = vc.component.orgManageInfo.conditions.headOrgId;
+                    }else{
+                        vc.component.orgManageInfo.conditions.parentOrgId = val;
+                    }
+                   vc.component._listOrgs(DEFAULT_PAGE, DEFAULT_ROWS);
+                },
+                deep:true
+            }
+         },
         _initMethod:function(){
             vc.component._listOrgs(DEFAULT_PAGE, DEFAULT_ROWS);
+            vc.component._getOrgsByOrgLevel(DEFAULT_PAGE, DEFAULT_ROWS,1,'');
         },
         _initEvent:function(){
             
@@ -79,6 +109,34 @@
                 }else{
                     vc.component.orgManageInfo.moreCondition = true;
                 }
+            },
+
+            _getOrgsByOrgLevel:function(_page, _rows,_orgLevel,_parentOrgId){
+
+                var param = {
+                    params:{
+                        page: _page,
+                        row: _rows,
+                        orgLevel:_orgLevel,
+                        parentOrgId: _parentOrgId
+                    }
+                 };
+
+               //发送get请求
+               vc.http.get('orgManage',
+                            'list',
+                             param,
+                             function(json,res){
+                                var _orgManageInfo=JSON.parse(json);
+                                if(_orgLevel == 1){
+                                     vc.component.orgManageInfo.headOrg = _orgManageInfo.orgs;
+                                }else{
+                                     vc.component.orgManageInfo.branchOrg = _orgManageInfo.orgs;
+                                }
+                             },function(errInfo,error){
+                                console.log('请求失败处理');
+                             }
+                           );
             }
 
              

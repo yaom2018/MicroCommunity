@@ -496,4 +496,133 @@ public class BusinessTypeConstant {
      */
     public static final String BUSINESS_TYPE_DELETE_ORG ="140100050001";
 
+
+    /**
+     *  保存员工组织关系
+     * 14开头  3保存
+     */
+    public static final String BUSINESS_TYPE_SAVE_ORG_STAFF_REL="140200030001";
+
+    public static final String BUSINESS_TYPE_UPDATE_ORG_STAFF_REL="140200040001";
+    /**
+     *  删除员工组织关系
+     */
+    public static final String BUSINESS_TYPE_DELETE_ORG_STAFF_REL ="140200050001";
+
+    /**
+     *  保存 资源
+     * 14开头  3保存
+     */
+    public static final String BUSINESS_TYPE_SAVE_RESOURCE_STORE="150200030001";
+
+    /**
+     * 修改资源
+     */
+    public static final String BUSINESS_TYPE_UPDATE_RESOURCE_STORE="150200040001";
+    /**
+     *  删除资源
+     */
+    public static final String BUSINESS_TYPE_DELETE_RESOURCE_STORE ="150200050001";
+
+
+    /**
+     *  保存 审核用户
+     * 14开头  3保存
+     */
+    public static final String BUSINESS_TYPE_SAVE_AUDIT_USER="160200030001";
+
+    /**
+     * 修改 审核用户
+     */
+    public static final String BUSINESS_TYPE_UPDATE_AUDIT_USER="160200040001";
+    /**
+     *  删除 审核用户
+     */
+    public static final String BUSINESS_TYPE_DELETE_AUDIT_USER ="160200050001";
+
+
+    /**
+     *  保存 审核用户
+     * 14开头  3保存
+     */
+    public static final String BUSINESS_TYPE_SAVE_AUDIT_MESSAGE="170200030001";
+
+    /**
+     * 修改 审核用户
+     */
+    public static final String BUSINESS_TYPE_UPDATE_AUDIT_MESSAGE="170200040001";
+    /**
+     *  删除 审核用户
+     */
+    public static final String BUSINESS_TYPE_DELETE_AUDIT_MESSAGE ="170200050001";
+
+    /**
+     * 启动工作流流程
+     */
+    public static final String BUSINESS_TYPE_START_PROCESS ="180200030001";
+   /* public static final String BUSINESS_TYPE_DELETE_AUDIT_MESSAGE ="170200050001";
+    public static final String BUSINESS_TYPE_DELETE_AUDIT_MESSAGE ="170200050001";
+*/
+
+    /**
+     *  保存 投诉意见
+     * 14开头  3保存
+     */
+    public static final String BUSINESS_TYPE_SAVE_COMPLAINT="190200030001";
+
+    /**
+     * 修改 投诉意见
+     */
+    public static final String BUSINESS_TYPE_UPDATE_COMPLAINT="190200040001";
+    /**
+     *  删除 投诉意见
+     */
+    public static final String BUSINESS_TYPE_DELETE_COMPLAINT ="190200050001";
+
+
+    /**
+     *  保存 设备
+     * 14开头  3保存
+     */
+    public static final String BUSINESS_TYPE_SAVE_MACHINE="200200030001";
+
+    /**
+     * 修改 设备
+     */
+    public static final String BUSINESS_TYPE_UPDATE_MACHINE="200200040001";
+    /**
+     *  删除 设备
+     */
+    public static final String BUSINESS_TYPE_DELETE_MACHINE ="200200050001";
+
+    /**
+     *  保存 设备同步
+     * 14开头  3保存
+     */
+    public static final String BUSINESS_TYPE_SAVE_MACHINE_TRANSLATE="210200030001";
+
+    /**
+     * 修改 设备
+     */
+    public static final String BUSINESS_TYPE_UPDATE_MACHINE_TRANSLATE="210200040001";
+    /**
+     *  删除 设备
+     */
+    public static final String BUSINESS_TYPE_DELETE_MACHINE_TRANSLATE ="210200050001";
+
+
+    /**
+     *  保存 文件保存关系
+     * 14开头  3保存
+     */
+    public static final String BUSINESS_TYPE_SAVE_FILE_REL="220200030001";
+
+    /**
+     * 修改 文件保存关系
+     */
+    public static final String BUSINESS_TYPE_UPDATE_FILE_REL="220200040001";
+    /**
+     *  删除 文件保存关系
+     */
+    public static final String BUSINESS_TYPE_DELETE_FILE_REL ="220200050001";
 }

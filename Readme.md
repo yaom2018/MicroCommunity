@@ -3,6 +3,7 @@
 :-: | :-: | :-: | :-:
 v0.01|初稿|2018-07-24|wuxw
 
+
 ### 代码分享视频
 
 1、[安装视频](http://www.iqiyi.com/w_19s9dzcnp9.html)
@@ -48,7 +49,7 @@ Java + spring cloud + mybatis + mysql + kafka + redis
 
 ### 演示地址（demo）
 
-[https://demo.java110.com](https://demo.java110.com)
+[http://www.homecommunity.cn](http://www.homecommunity.cn)
 
 物业 账号/密码：wuxw/admin
 
@@ -69,6 +70,12 @@ Java + spring cloud + mybatis + mysql + kafka + redis
 ### 解决方案
 
 [解决方案](https://docs.qq.com/doc/DQW9XWW50R3NjWmN6) 不断完善中
+
+### 硬件接入
+
+![流程图](docs/document/images/machineFlow.png)
+
+目前对接锐目门禁系统，如果您想将您的硬件对接到此项目，请加qq群号827669685 联系我们
 
 ### 二次开发视频
 

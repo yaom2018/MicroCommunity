@@ -22,31 +22,20 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.java110</groupId>
-            <artifactId>java110-service</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>java110-db</artifactId>
-                    <groupId>com.java110</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <groupId>com.java110</groupId>
+            <artifactId>java110-front</artifactId>
         </dependency>
+
+
 
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>com.java110</groupId>
@@ -54,9 +43,10 @@
             <scope>provided</scope>
         </dependency>
 
+
         <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
+            <groupId>com.java110</groupId>
+            <artifactId>ReportComponent</artifactId>
         </dependency>
 
 

@@ -8,7 +8,7 @@ import com.java110.utils.constant.ServiceConstant;
 import com.java110.utils.exception.SMOException;
 import com.java110.utils.util.Assert;
 import com.java110.core.context.IPageData;
-import com.java110.web.core.BaseComponentSMO;
+import com.java110.core.component.BaseComponentSMO;
 import com.java110.web.smo.ICarServiceSMO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -198,6 +198,16 @@ public class CarServiceSMOImpl extends BaseComponentSMO implements ICarServiceSM
                 ServiceConstant.SERVICE_API_URL + "/api/car.deleteCar",
                 HttpMethod.POST);
 
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity<String> listCarType(IPageData pd) {
+        //获取请求参数
+        JSONObject reqParam = JSONObject.parseObject(pd.getReqData());
+        //拉取数据
+        String url=ServiceConstant.SERVICE_API_URL.concat("/api/dict.queryDict").concat(mapToUrlParam(reqParam));
+        ResponseEntity<String> responseEntity = this.callCenterService(restTemplate, pd, "",url , HttpMethod.GET);
         return responseEntity;
     }
 
