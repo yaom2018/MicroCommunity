@@ -283,7 +283,8 @@
 
     <!-- 查询用户属性信息 -->
     <select id="queryUserInfoAttrs" parameterType="map" resultType="map">
-        select u.attr_id,u.user_id,u.spec_cd,u.value,u.b_id
+        select u.attr_id,u.user_id,u.spec_cd,u.value,u.b_id,
+        u.attr_id attrId,u.user_id userId,u.spec_cd specCd,u.b_id bId
         from u_user_attr u where u.status_cd = '0'
         <if test="bId != null and bId !=''">
             and u.b_id = #{bId}
@@ -503,6 +504,100 @@
         <if test="page != -1 and page != null ">
             limit #{page}, #{row}
         </if>
+    </select>
+
+    <!-- 查询用户 -->
+    <select id="getUsers" parameterType="Map" resultType="Map">
+        select u.user_id, u.user_id userId,u.name,u.name userName,u.email,u.address,u.password,u.location_cd,u.location_cd locationCd,
+        u.age,u.sex,u.tel,u.level_cd,u.b_id
+        from u_user u
+        <if test="openId != null and openId !=''">
+            ,u_user_attr ua
+        </if>
+        where 1= 1
+        <if test="openId != null and openId != ''">
+            and u.user_id = ua.user_id
+            and ua.spec_cd = '100201911001'
+            and ua.value = #{openId}
+            and ua.status_cd = '0'
+        </if>
+        <if test="bId != null and bId !=''">
+            and u.b_id = #{bId}
+        </if>
+        <if test="userId != null and userId != ''">
+            and u.user_id = #{userId}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and u.status_cd = #{statusCd}
+        </if>
+        <if test="userIds != null and userIds != null">
+            and u.user_id in
+            <foreach collection="userIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        order by u.create_time desc
+        <if test="page != -1 and page != null ">
+            limit #{page}, #{row}
+        </if>
+    </select>
+
+    <select id="getUserCount" parameterType="Map" resultType="Map">
+        select count(1) count
+        from u_user u
+        <if test="openId != null and openId !=''">
+            ,u_user_attr ua
+        </if>
+        where 1= 1
+        <if test="openId != null and openId != ''">
+            and u.user_id = ua.user_id
+            and ua.spec_cd = '100201911001'
+            and ua.value = #{openId}
+            and ua.status_cd = '0'
+        </if>
+        <if test="bId != null and bId !=''">
+            and u.b_id = #{bId}
+        </if>
+        <if test="userId != null and userId != ''">
+            and u.user_id = #{userId}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and u.status_cd = #{statusCd}
+        </if>
+        <if test="userIds != null and userIds != null">
+            and u.user_id in
+            <foreach collection="userIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+
+    </select>
+
+    <!-- 查询用户密码 -->
+    <select id="getUserHasPwd" parameterType="Map" resultType="Map">
+        select u.user_id, u.user_id userId,u.name,u.name userName,u.email,u.address,u.password,u.location_cd,u.location_cd locationCd,
+        u.age,u.sex,u.tel,u.level_cd levelCd,u.b_id,u.password
+        from u_user u
+        <if test="openId != null and openId !=''">
+            ,u_user_attr ua
+        </if>
+        where 1= 1
+        <if test="openId != null and openId != ''">
+            and u.user_id = ua.user_id
+            and ua.spec_cd = '100201911001'
+            and ua.value = #{openId}
+            and ua.status_cd = '0'
+        </if>
+        <if test="bId != null and bId !=''">
+            and u.b_id = #{bId}
+        </if>
+        <if test="userId != null and userId != ''">
+            and u.user_id = #{userId}
+        </if>
+        <if test="statusCd !=null and statusCd != ''">
+            and u.status_cd = #{statusCd}
+        </if>
+
     </select>
 
 </mapper>

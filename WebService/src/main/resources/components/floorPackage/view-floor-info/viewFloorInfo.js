@@ -16,8 +16,10 @@
                 showAddFloorButton:$props.showAddFloorButton,
                 floorId:'',
                 floorName:'',
+                name:'',
                 floorNum:'',
                 remark:'',
+                communityId:vc.getCurrentCommunity().communityId
 
             }
         },
@@ -30,6 +32,9 @@
                 vc.copyObject(_app, vc.component.viewFloorInfo);
                 vc.emit($props.callBackListener,$props.callBackFunction,vc.component.viewFloorInfo);
                 vc.emit('chooseUnit', 'onFloorInfo', {
+                    floorId: vc.component.viewFloorInfo.floorId
+                });
+                vc.emit('addUnit', 'onFloorInfo', {
                     floorId: vc.component.viewFloorInfo.floorId
                 });
                 vc.emit('viewUnitInfo', 'onFloorInfo', {

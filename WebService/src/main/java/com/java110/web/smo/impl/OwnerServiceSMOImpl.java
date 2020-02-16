@@ -129,7 +129,7 @@ public class OwnerServiceSMOImpl extends BaseComponentSMO implements IOwnerServi
 
         JSONObject paramIn = JSONObject.parseObject(pd.getReqData());
         if (paramIn.containsKey("ownerId") && !paramIn.getString("ownerId").startsWith("-")) {
-            paramIn.put("ownerTypeCd", "1002");
+            //paramIn.put("ownerTypeCd", "1002");
         } else {
             paramIn.put("ownerTypeCd", "1001");
         }
@@ -171,7 +171,7 @@ public class OwnerServiceSMOImpl extends BaseComponentSMO implements IOwnerServi
         if (paramIn.getString("ownerId").equals(paramIn.getString("memberId"))) {
             paramIn.put("ownerTypeCd", "1001");
         } else {
-            paramIn.put("ownerTypeCd", "1002");
+            //paramIn.put("ownerTypeCd", "1002");
         }
         String communityId = paramIn.getString("communityId");
         ResponseEntity responseEntity = super.getStoreInfo(pd, restTemplate);
@@ -252,6 +252,7 @@ public class OwnerServiceSMOImpl extends BaseComponentSMO implements IOwnerServi
         //Assert.jsonObjectHaveKey(pd.getReqData(), "ownerTypeCd", "请求报文中未包含ownerTypeCd节点");
         Assert.jsonObjectHaveKey(pd.getReqData(), "link", "请求报文中未包含link");
         Assert.jsonObjectHaveKey(pd.getReqData(), "sex", "请求报文中未包含sex");
+       // Assert.jsonObjectHaveKey(pd.getReqData(), "idCard", "请求报文中未包含身份证号");
         Assert.jsonObjectHaveKey(pd.getReqData(), "remark", "未包含小区楼备注");
     }
 
@@ -266,6 +267,7 @@ public class OwnerServiceSMOImpl extends BaseComponentSMO implements IOwnerServi
         Assert.jsonObjectHaveKey(pd.getReqData(), "name", "请求报文中未包含name");
         Assert.jsonObjectHaveKey(pd.getReqData(), "link", "请求报文中未包含link");
         Assert.jsonObjectHaveKey(pd.getReqData(), "sex", "请求报文中未包含sex");
+        //Assert.jsonObjectHaveKey(pd.getReqData(), "idCard", "请求报文中未包含身份证号");
         Assert.jsonObjectHaveKey(pd.getReqData(), "remark", "未包含小区楼备注");
     }
 

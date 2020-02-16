@@ -7,7 +7,7 @@ import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.smo.app.IAppInnerServiceSMO;
 import com.java110.core.smo.user.IUserInnerServiceSMO;
 import com.java110.dto.PageDto;
-import com.java110.dto.UserDto;
+import com.java110.dto.user.UserDto;
 import com.java110.dto.app.AppDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +32,7 @@ public class AppInnerServiceSMOImpl extends BaseServiceSMO implements IAppInnerS
 
     @Autowired
     private IUserInnerServiceSMO userInnerServiceSMOImpl;
-
+    
     @Override
     public List<AppDto> queryApps(@RequestBody  AppDto appDto) {
 

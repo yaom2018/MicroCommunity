@@ -9,6 +9,7 @@
             addFloorInfo:{
                 floorId:'',
                 name:'',
+                floorName:'',
                 floorNum:'',
                 remark:'',
                 errorInfo:''
@@ -77,7 +78,7 @@
             },
             saveFloorInfo:function(){
                 if(!vc.component.addFloorValidate()){
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
 
                     return ;
                 }
@@ -87,6 +88,7 @@
 
                 //不提交数据将数据 回调给侦听处理
                 if(vc.notNull($props.callBackListener)){
+                    vc.component.addFloorInfo.floorName = vc.component.addFloorInfo.name;
                     vc.emit($props.callBackListener,$props.callBackFunction,vc.component.addFloorInfo);
                     $('#addFloorModel').modal('hide');
                     return ;

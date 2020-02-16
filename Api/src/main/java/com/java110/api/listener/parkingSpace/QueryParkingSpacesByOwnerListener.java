@@ -3,17 +3,15 @@ package com.java110.api.listener.parkingSpace;
 
 import com.alibaba.fastjson.JSONObject;
 import com.java110.api.listener.AbstractServiceApiDataFlowListener;
-import com.java110.utils.constant.ResponseConstant;
 import com.java110.utils.constant.ServiceCodeConstant;
-import com.java110.utils.exception.ListenerExecuteException;
 import com.java110.utils.util.Assert;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.annotation.Java110Listener;
 import com.java110.core.context.DataFlowContext;
 import com.java110.core.smo.owner.IOwnerCarInnerServiceSMO;
 import com.java110.core.smo.parkingSpace.IParkingSpaceInnerServiceSMO;
-import com.java110.dto.OwnerCarDto;
-import com.java110.dto.ParkingSpaceDto;
+import com.java110.dto.owner.OwnerCarDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.event.service.api.ServiceDataFlowEvent;
 import com.java110.vo.api.ApiParkingSpaceDataVo;
 import com.java110.vo.api.ApiParkingSpaceVo;
@@ -89,7 +87,8 @@ public class QueryParkingSpacesByOwnerListener extends AbstractServiceApiDataFlo
             List<ParkingSpaceDto> parkingSpaceDtos = parkingSpaceInnerServiceSMOImpl.queryParkingSpaces(parkingSpaceDto);
 
             if (parkingSpaceDtos == null || parkingSpaceDtos.size() != 1) {
-                throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "根据psId 查询存在多条停车位信息" + tmpOwnerCarDto.getPsId());
+                //throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "根据psId 查询存在多条停车位信息" + tmpOwnerCarDto.getPsId());
+                continue;
             }
 
             parkingSpaceDto = parkingSpaceDtos.get(0);
@@ -97,6 +96,9 @@ public class QueryParkingSpacesByOwnerListener extends AbstractServiceApiDataFlo
             ApiParkingSpaceDataVo apiParkingSpaceDataVo = BeanConvertUtil.covertBean(tmpOwnerCarDto, ApiParkingSpaceDataVo.class);
 
             apiParkingSpaceDataVo = BeanConvertUtil.covertBean(parkingSpaceDto, apiParkingSpaceDataVo);
+            apiParkingSpaceDataVo.setCarNum(tmpOwnerCarDto.getCarNum());
+            apiParkingSpaceDataVo.setCarType(tmpOwnerCarDto.getCarType());
+            apiParkingSpaceDataVo.setCarTypeName(tmpOwnerCarDto.getCarTypeName());
 
             apiParkingSpaceDataVos.add(apiParkingSpaceDataVo);
 

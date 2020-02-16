@@ -32,7 +32,11 @@ public class SaveMachineListener extends AbstractServiceApiListener {
         Assert.hasKeyAndValue(reqJson, "machineVersion", "必填，请填写设备版本号");
         Assert.hasKeyAndValue(reqJson, "machineName", "必填，请填写设备名称");
         Assert.hasKeyAndValue(reqJson, "machineTypeCd", "必填，请选择设备类型");
+        Assert.hasKeyAndValue(reqJson, "direction", "必填，请选择设备方向");
         Assert.hasKeyAndValue(reqJson, "authCode", "必填，请填写鉴权编码");
+        Assert.hasKeyAndValue(reqJson, "locationTypeCd", "必填，请选择位置类型");
+        Assert.hasKeyAndValue(reqJson, "locationObjId", "必填，请填写位置对象ID");
+
 
     }
 
@@ -90,6 +94,7 @@ public class SaveMachineListener extends AbstractServiceApiListener {
         business.put(CommonConstant.HTTP_INVOKE_MODEL, CommonConstant.HTTP_INVOKE_MODEL_S);
         JSONObject businessMachine = new JSONObject();
         businessMachine.putAll(paramInJson);
+        businessMachine.put("state", "1000");
         businessMachine.put("machineId", "-1");
         //计算 应收金额
         business.getJSONObject(CommonConstant.HTTP_BUSINESS_DATAS).put("businessMachine", businessMachine);

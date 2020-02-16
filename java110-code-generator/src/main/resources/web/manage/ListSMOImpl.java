@@ -34,7 +34,7 @@ public class List@@TemplateCode@@sSMOImpl extends AbstractComponentSMO implement
 
         super.validatePageInfo(pd);
 
-        super.checkUserHasPrivilege(pd, restTemplate, PrivilegeCodeConstant.AGENT_HAS_LIST_@@TEMPLATECODE@@);
+        //super.checkUserHasPrivilege(pd, restTemplate, PrivilegeCodeConstant.AGENT_HAS_LIST_@@TEMPLATECODE@@);
     }
 
     @Override

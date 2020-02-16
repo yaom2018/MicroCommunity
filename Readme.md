@@ -27,15 +27,13 @@ java1.8 + idea/eclipse + mysql
 
 Java + spring cloud + mybatis + mysql + kafka + redis
 
-3. 服务依赖关系
+![image](docs/images/system.png)
 
-![image](dependencies.png)
-
-4. 硬件要求:
+3. 硬件要求:
 
    测试环境基本要求：4个CPU 、16G内存和80G硬盘
    
-5. 软件要求:
+4. 软件要求:
 
     需要自行安装 mysql5.6、zookeeper、Redis和kafka
     
@@ -45,11 +43,26 @@ Java + spring cloud + mybatis + mysql + kafka + redis
     推荐用docker部署管理，需要安装docker、docker-compose （如果夸主机部署请用docker swarm 自行创建java110-net network），
     如果是单机推荐直接运行 reBuildAll.sh
     
+### 业主小程序
+
+   ![image](docs/images/hcOwner.png)
     
+   github: [https://github.com/java110/WechatOwnerService](https://github.com/java110/WechatOwnerService)
+   
+   gitee: [https://gitee.com/java110/WechatOwnerService](https://gitee.com/java110/WechatOwnerService)
+    
+### 系统功能（function） 
+
+   ![image](docs/images/hc_function.png)
+   
+   主要系统功能请查看
+     
+   [http://www.homecommunity.cn//document/#/func/funcation](http://www.homecommunity.cn//document/#/func/funcation)
+  
 
 ### 演示地址（demo）
 
-[http://www.homecommunity.cn](http://www.homecommunity.cn)
+[http://www.homecommunity.cn/](http://www.homecommunity.cn/)
 
 物业 账号/密码：wuxw/admin
 
@@ -61,11 +74,11 @@ Java + spring cloud + mybatis + mysql + kafka + redis
 
 ### 如何开始（how to start）
 
-[http://www.homecommunity.cn](http://www.homecommunity.cn)
+[http://www.homecommunity.cn/](http://www.homecommunity.cn/)
 
 ### 如何安装（how to install）
 
-[安装文档](http://www.homecommunity.cn/document/#/start/dev_install)
+[安装文档](http://www.homecommunity.cn//document/#/start/dev_install)
 
 ### 解决方案
 
@@ -79,13 +92,13 @@ Java + spring cloud + mybatis + mysql + kafka + redis
 
 ### 二次开发视频
 
-[视频](http://www.homecommunity.cn/document/#/start/vedio)
+[视频](http://www.homecommunity.cn//document/#/start/vedio)
 
 ### 接口协议
 
-1. [Api协议](http://www.homecommunity.cn/document/#/api/user/register)
+1. [Api协议](http://www.homecommunity.cn//document/#/api/user/register)
 
-2. [后台协议](http://www.homecommunity.cn/document/#/dictionary)
+2. [后台协议](http://www.homecommunity.cn//document/#/dictionary)
 
 ### 运行效果（view）
 1.在浏览器输入 https://localhost:8443/ 如下图

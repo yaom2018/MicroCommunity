@@ -91,7 +91,7 @@
 
             _addNewVisitInfo(){
                 if (!vc.component.addAppValidate()) {
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
 
                     return;
                 }
@@ -109,7 +109,7 @@
                 vc.component.addVisitInfo.visitTime = vc.dateFormat(new Date().getTime());
                  $('.addVisitTime').datetimepicker({
                     language: 'zh-CN',
-                    format: 'yyyy-mm-dd HH:ii:ss',
+                    format: 'yyyy-mm-dd hh:ii:ss',
                     initTime: true,
                     initialDate: new Date(),
                     autoClose: 1,
@@ -123,7 +123,7 @@
                     });
                 $('.addDepartureTime').datetimepicker({
                     language: 'zh-CN',
-                    format: 'yyyy-mm-dd HH:ii:ss',
+                    format: 'yyyy-mm-dd hh:ii:ss',
                     initTime: true,
                     initialDate: new Date(),
                     autoClose: 1,

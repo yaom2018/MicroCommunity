@@ -13,8 +13,8 @@ import com.java110.core.context.DataFlowContext;
 import com.java110.core.factory.GenerateCodeFactory;
 import com.java110.core.smo.fee.IFeeConfigInnerServiceSMO;
 import com.java110.core.smo.parkingSpace.IParkingSpaceInnerServiceSMO;
-import com.java110.dto.FeeConfigDto;
-import com.java110.dto.ParkingSpaceDto;
+import com.java110.dto.fee.FeeConfigDto;
+import com.java110.dto.parking.ParkingSpaceDto;
 import com.java110.entity.center.AppService;
 import com.java110.event.service.api.ServiceDataFlowEvent;
 import org.slf4j.Logger;
@@ -175,7 +175,6 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
     private JSONObject addParkingSpaceFee(JSONObject paramInJson, DataFlowContext dataFlowContext) {
 
 
-
         JSONObject business = JSONObject.parseObject("{\"datas\":{}}");
         business.put(CommonConstant.HTTP_BUSINESS_TYPE_CD, BusinessTypeConstant.BUSINESS_TYPE_SAVE_FEE_INFO);
         business.put(CommonConstant.HTTP_SEQ, DEFAULT_SEQ + 2);
@@ -184,11 +183,15 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
         businessUnit.put("feeId", paramInJson.getString("feeId"));
         businessUnit.put("feeTypeCd", paramInJson.getString("feeTypeCd"));
         businessUnit.put("incomeObjId", paramInJson.getString("storeId"));
-        businessUnit.put("amount", paramInJson.getString("amount") );
+        businessUnit.put("amount", paramInJson.getString("amount"));
         businessUnit.put("startTime", DateUtil.getNow(DateUtil.DATE_FORMATE_STRING_A));
         businessUnit.put("endTime", paramInJson.getString("endTime"));
         businessUnit.put("communityId", paramInJson.getString("communityId"));
         businessUnit.put("payerObjId", paramInJson.getString("psId"));
+        businessUnit.put("payerObjType", "6666");
+        businessUnit.put("configId", paramInJson.getString("configId"));
+        businessUnit.put("feeFlag", this.isHireParkingSpace(paramInJson) ? "1003006" : "2006012");
+        businessUnit.put("state", this.isHireParkingSpace(paramInJson) ? "2008001" : "2009001");
         businessUnit.put("userId", dataFlowContext.getRequestCurrentHeaders().get(CommonConstant.HTTP_USER_ID));
         business.getJSONObject(CommonConstant.HTTP_BUSINESS_DATAS).put("businessFee", businessUnit);
 
@@ -252,19 +255,20 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
         Assert.hasLength(paramInObj.getString("psId"), "psId不能为空");
         Assert.isMoney(paramInObj.getString("receivedAmount"), "不是有效的实收金额");
 
-        if(!"H".equals(paramInObj.getString("sellOrHire"))
-                && !"S".equals(paramInObj.getString("sellOrHire"))){
+        if (!"H".equals(paramInObj.getString("sellOrHire"))
+                && !"S".equals(paramInObj.getString("sellOrHire"))) {
             throw new ListenerExecuteException(ResponseConstant.RESULT_CODE_ERROR, "请求报文中sellOrFire值错误 ，出售为S 出租为H");
         }
     }
 
     /**
      * 校验 是否是车位出租
+     *
      * @param paramObj
      * @return
      */
-    private boolean isHireParkingSpace(JSONObject paramObj){
-        if("H".equals(paramObj.getString("sellOrHire"))){
+    private boolean isHireParkingSpace(JSONObject paramObj) {
+        if ("H".equals(paramObj.getString("sellOrHire"))) {
             return true;
         }
         return false;
@@ -272,9 +276,10 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
 
     /**
      * 计算费用信息
+     *
      * @param paramInJson 传入数据字段
      */
-    private void computeFeeInfo(JSONObject paramInJson){
+    private void computeFeeInfo(JSONObject paramInJson) {
 
         //根据停车位ID查询是地上还是地下停车位
         ParkingSpaceDto parkingSpaceDto = new ParkingSpaceDto();
@@ -293,11 +298,11 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
 
         String feeTypeCd = "1001".equals(parkingSpaceDto.getTypeCd())
                 ? (this.isHireParkingSpace(paramInJson)
-                        ? FeeTypeConstant.FEE_TYPE_HIRE_UP_PARKING_SPACE
-                        :FeeTypeConstant.FEE_TYPE_SELL_UP_PARKING_SPACE)
+                ? FeeTypeConstant.FEE_TYPE_HIRE_UP_PARKING_SPACE
+                : FeeTypeConstant.FEE_TYPE_SELL_UP_PARKING_SPACE)
                 : (this.isHireParkingSpace(paramInJson)
-                        ? FeeTypeConstant.FEE_TYPE_HIRE_DOWN_PARKING_SPACE
-                        :FeeTypeConstant.FEE_TYPE_SELL_DOWN_PARKING_SPACE);
+                ? FeeTypeConstant.FEE_TYPE_HIRE_DOWN_PARKING_SPACE
+                : FeeTypeConstant.FEE_TYPE_SELL_DOWN_PARKING_SPACE);
 
         paramInJson.put("feeTypeCd", feeTypeCd);
 
@@ -306,6 +311,7 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
 
         FeeConfigDto feeConfigDto = new FeeConfigDto();
         feeConfigDto.setFeeTypeCd(feeTypeCd);
+        feeConfigDto.setIsDefault("T");
         feeConfigDto.setCommunityId(paramInJson.getString("communityId"));
         List<FeeConfigDto> feeConfigDtos = feeConfigInnerServiceSMOImpl.queryFeeConfigs(feeConfigDto);
         if (feeConfigDtos == null || feeConfigDtos.size() != 1) {
@@ -318,6 +324,7 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
                 * Double.parseDouble(paramInJson.getString("cycles")) : Double.parseDouble(feeConfigDto.getAdditionalAmount());
 
         paramInJson.put("receivableAmount", receivableAmount);
+        paramInJson.put("configId",feeConfigDto.getConfigId());
 
         //计算 amount
         String amount = isHireParkingSpace(paramInJson) ? "-1.00" : String.valueOf(receivableAmount);
@@ -329,7 +336,7 @@ public class SellParkingSpaceListener extends AbstractServiceApiDataFlowListener
 
         //计算结束时间
         String endTime = "2038-01-01 00:00:00";
-        if(isHireParkingSpace(paramInJson)) {
+        if (isHireParkingSpace(paramInJson)) {
             Date et = DateUtil.getCurrentDate();
             Calendar endCalender = Calendar.getInstance();
             endCalender.setTime(et);

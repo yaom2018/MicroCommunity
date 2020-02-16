@@ -23,7 +23,7 @@ description:'',
                 vc.component.refreshEditServiceImplInfo();
                 $('#editServiceImplModel').modal('show');
                 vc.copyObject(_params, vc.component.editServiceImplInfo );
-                vc.component.editServiceImplInfo.communityId = vc.getCurrentCommunity().communityId;
+                //vc.component.editServiceImplInfo.communityId = vc.getCurrentCommunity().communityId;
             });
         },
         methods:{
@@ -140,7 +140,7 @@ description:'',
              },
             editServiceImpl:function(){
                 if(!vc.component.editServiceImplValidate()){
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
                     return ;
                 }
 

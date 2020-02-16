@@ -28,6 +28,7 @@ public class VcCreateProcessor extends AbstractElementTagProcessor {
     private static final String TAG_NAME = "create";
     private static final String NAME = "name";
     private static final int PRECEDENCE = 300;
+    private static final String DEFAULT_NAMESPACE = "default";
 
 
     public VcCreateProcessor(String dialectPrefix) {
@@ -58,7 +59,7 @@ public class VcCreateProcessor extends AbstractElementTagProcessor {
         //将组建名称写入组建HTML 第一个标签中
         addDataComponent(elements, componentName);
 
-        htmlModel.addModel(modelFactory.parse(context.getTemplateData(), doc.body().children().toString()));
+        htmlModel.addModel(modelFactory.parse(context.getTemplateData(), dealHtmlThis(tag, doc.body().children().toString())));
 
         String css = VueComponentTemplate.findTemplateByComponentCode(componentName + "." + VueComponentTemplate.COMPONENT_CSS);
         if (css != null) {
@@ -69,16 +70,47 @@ public class VcCreateProcessor extends AbstractElementTagProcessor {
         //js
         String js = VueComponentTemplate.findTemplateByComponentCode(componentName + "." + VueComponentTemplate.COMPONENT_JS);
         if (js != null) {
-
             js = dealJs(js, tag);
+            js = dealNameSpace(js, tag);
             js = dealJsAddComponentCode(js, tag);
             js = "<script type=\"text/javascript\" " + DIV_PROPERTY_COMPONENT + "=\"" + componentName + "\">//<![CDATA[ \n" + js + "//]]>\n</script>";
-            htmlModel.add(modelFactory.createText(js));
+            htmlModel.add(modelFactory.createText(dealHtmlJs(tag, js)));
         }
 
         logger.debug("解析完成组件{},{}", componentName, new Date().getTime());
         structureHandler.replaceWith(htmlModel, true);
 
+    }
+
+    private String dealHtmlThis(IProcessableElementTag tag, String html) {
+
+        if (!tag.hasAttribute("namespace")) {
+            return html;
+        }
+
+        String namespace = tag.getAttributeValue("namespace");
+
+        return html.replace("this.", namespace + "_")
+                .replaceAll("(id)+( )*+=+( )*+'", "id='" + namespace + "_")
+                .replaceAll("(id)+( )*+=+( )*+\"", "id=\"" + namespace + "_");
+    }
+
+    private String dealHtmlJs(IProcessableElementTag tag, String js) {
+
+        if (!tag.hasAttribute("namespace")) {
+            return js;
+        }
+
+        String namespace = tag.getAttributeValue("namespace");
+
+        js = js.replace("this.", "vc.component." + namespace + "_")
+                .replaceAll("(\\$)+( )*+(\\()+( )*+\'+#", "\\$('#" + namespace + "_")
+                .replaceAll("(\\$)+( )*+(\\()+( )*+\"+#", "\\$(\"#" + namespace + "_");
+
+        //将 监听也做优化
+        js = js.replaceAll("(vc.on)+\\('", "vc.on('" + namespace + "','");
+        js = js.replaceAll("(vc.on)+\\(\"", "vc.on(\"" + namespace + "\",\"");
+        return js;
     }
 
 
@@ -188,5 +220,45 @@ public class VcCreateProcessor extends AbstractElementTagProcessor {
         String code = tag.getAttributeValue("code");
 
         return js.replace("@vc_", code);
+    }
+
+    /**
+     * 处理namespace
+     *
+     * @param js
+     * @param tag
+     * @return
+     */
+    private String dealNameSpace(String js, IProcessableElementTag tag) {
+
+        //在js 中检测propTypes 属性
+        if (!js.contains("vc.extends")) {
+            return js;
+        }
+        String namespace = "";
+        if (!tag.hasAttribute("namespace")) {
+            namespace = DEFAULT_NAMESPACE;
+        } else {
+            namespace = tag.getAttributeValue("namespace");
+        }
+
+        //js对象中插入namespace 值
+        int extPos = js.indexOf("vc.extends");
+        String tmpProTypes = js.substring(extPos);
+        int pos = tmpProTypes.indexOf("{") + 1;
+        js = js.substring(0, extPos) + tmpProTypes.substring(0, pos).trim()
+                + "\nnamespace:'" + namespace.trim() + "',\n" + tmpProTypes.substring(pos, tmpProTypes.length());
+        int position = js.indexOf("{");
+        String propsJs = "\nvar $namespace='" + namespace.trim() + "';\n";
+        js = new StringBuffer(js).insert(position + 1, propsJs).toString();
+        return js;
+    }
+
+    public static void main(String[] args) {
+        String js = "123$ ( '#av').val()";
+        js = js.replaceAll("(\\$)+( )*+(\\()+( )*+\'+#", "\\$('#abg_");
+
+        System.out.println(js);
+
     }
 }

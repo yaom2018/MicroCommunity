@@ -24,7 +24,7 @@
                 vc.component.refreshEditServiceProvideInfo();
                 $('#editServiceProvideModel').modal('show');
                 vc.copyObject(_params, vc.component.editServiceProvideInfo);
-                vc.component.editServiceProvideInfo.communityId = vc.getCurrentCommunity().communityId;
+                //vc.component.editServiceProvideInfo.communityId = vc.getCurrentCommunity().communityId;
             });
         },
         methods: {
@@ -98,7 +98,7 @@
             },
             editServiceProvide: function () {
                 if (!vc.component.editServiceProvideValidate()) {
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
                     return;
                 }
 

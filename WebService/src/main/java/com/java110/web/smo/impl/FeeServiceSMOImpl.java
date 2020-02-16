@@ -36,7 +36,7 @@ public class FeeServiceSMOImpl extends BaseComponentSMO implements IFeeServiceSM
         validateLoadPropertyConfigFee(pd);
 
         //校验员工是否有权限操作
-        super.checkUserHasPrivilege(pd, restTemplate, PrivilegeCodeConstant.PRIVILEGE_PROPERTY_CONFIG_FEE);
+        //super.checkUserHasPrivilege(pd, restTemplate, PrivilegeCodeConstant.PRIVILEGE_PROPERTY_CONFIG_FEE);
 
         JSONObject paramIn = JSONObject.parseObject(pd.getReqData());
         String communityId = paramIn.getString("communityId");
@@ -55,12 +55,12 @@ public class FeeServiceSMOImpl extends BaseComponentSMO implements IFeeServiceSM
             paramIn.put("feeTypeCd", feeTypeCd);
         }
         responseEntity = this.callCenterService(restTemplate, pd, "",
-                ServiceConstant.SERVICE_API_URL + "/api/fee.queryFeeConfig" + mapToUrlParam(paramIn),
+                ServiceConstant.SERVICE_API_URL + "/api/feeConfig.listFeeConfigs" + mapToUrlParam(paramIn),
                 HttpMethod.GET);
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
             return responseEntity;
         }
-        JSONArray feeConfigs = JSONArray.parseArray(responseEntity.getBody().toString());
+        JSONArray feeConfigs = JSONObject.parseObject(responseEntity.getBody().toString()).getJSONArray("feeConfigs");
 
         if (feeConfigs != null && feeConfigs.size() > 1) {
             responseEntity = new ResponseEntity<String>("数据异常，请检查配置数据", HttpStatus.BAD_REQUEST);
@@ -419,6 +419,8 @@ public class FeeServiceSMOImpl extends BaseComponentSMO implements IFeeServiceSM
      */
     private void validateLoadPropertyConfigFee(IPageData pd) {
         Assert.jsonObjectHaveKey(pd.getReqData(), "communityId", "请求报文中未包含communityId节点");
+        Assert.jsonObjectHaveKey(pd.getReqData(), "page", "请求报文中未包含page节点");
+        Assert.jsonObjectHaveKey(pd.getReqData(), "row", "请求报文中未包含row节点");
 
         JSONObject paramIn = JSONObject.parseObject(pd.getReqData());
         Assert.hasLength(paramIn.getString("communityId"), "小区ID不能为空");

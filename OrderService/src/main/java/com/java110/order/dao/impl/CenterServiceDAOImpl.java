@@ -300,6 +300,15 @@ public class CenterServiceDAOImpl extends BaseServiceDao implements ICenterServi
     public List<Map> queryManchineOrders(Map info) {
         return sqlSessionTemplate.selectList("centerServiceDAOImpl.queryManchineOrders");
     }
+    /**
+     * 查询申请钥匙订单
+     * @param info
+     * @return
+     */
+    @Override
+    public List<Map> queryApplicationKeyOrders(Map info) {
+        return sqlSessionTemplate.selectList("centerServiceDAOImpl.queryApplicationKeyOrders");
+    }
 
     /**
      * 根据oId 查询Business
@@ -313,5 +322,16 @@ public class CenterServiceDAOImpl extends BaseServiceDao implements ICenterServi
         return sqlSessionTemplate.selectList("centerServiceDAOImpl.getBusinessByOId",info);
     }
 
+    /**
+     * 查询同订单 订单项
+     * @param info
+     * @return
+     * @throws DAOException
+     */
+    public List<Map> querySameOrderBusiness(Map info) throws DAOException{
+        logger.debug("----【CenterServiceDAOImpl.querySameOrderBusiness】数据入参 : " + JSONObject.toJSONString(info));
+
+        return sqlSessionTemplate.selectList("centerServiceDAOImpl.querySameOrderBusiness",info);
+    }
 
 }

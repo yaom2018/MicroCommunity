@@ -18,11 +18,14 @@ public class MachineTranslateDto extends PageDto implements Serializable {
     private String machineId;
     private String machineCode;
     private String typeCd;
+    private String typeCdName;
     private String machineTranslateId;
     private String objId;
     private String objName;
     private String state;
+    private String stateName;
     private String communityId;
+    private String updateTime;
 
 
     private Date createTime;
@@ -109,5 +112,29 @@ public class MachineTranslateDto extends PageDto implements Serializable {
 
     public void setStatusCd(String statusCd) {
         this.statusCd = statusCd;
+    }
+
+    public String getTypeCdName() {
+        return typeCdName;
+    }
+
+    public void setTypeCdName(String typeCdName) {
+        this.typeCdName = typeCdName;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 }

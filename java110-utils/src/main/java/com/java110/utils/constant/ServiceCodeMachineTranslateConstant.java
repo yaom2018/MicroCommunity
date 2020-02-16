@@ -38,6 +38,11 @@ public class ServiceCodeMachineTranslateConstant {
     public static final String MACHINE_QUERY_USER_INFO = "machineTranslate.machineQueryUserInfo";
 
     /**
+     * 心跳检测类
+     */
+    public static final String MACHINE_GET_TASK_INFO = "machineTranslate.machineGetTaskInfo";
+
+    /**
      * 上传刷脸记录
      */
     public static final String MACHINE_UPLOAD_FACE_LOG = "machineTranslate.machineUploadFaceLog";
@@ -46,6 +51,16 @@ public class ServiceCodeMachineTranslateConstant {
      * 结果上报
      */
     public static final String MACHINE_CMD_RESULT = "machineTranslate.machineCmdResult";
+
+    /**
+     * 道闸开门
+     */
+    public static final String MACHINE_ROAD_GATE_OPEN = "machineTranslate.machineRoadGateOpen";
+
+    /**
+     * 获取空闲停车位
+     */
+    public static final String MACHINE_GET_FREE_PARKING_SPACE = "machineTranslate.machineGetFreeParkingSpace";
 
 
 }

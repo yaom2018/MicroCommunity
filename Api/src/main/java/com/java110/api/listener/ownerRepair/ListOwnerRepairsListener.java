@@ -5,10 +5,13 @@ import com.java110.api.listener.AbstractServiceApiListener;
 import com.java110.core.annotation.Java110Listener;
 import com.java110.core.context.DataFlowContext;
 import com.java110.core.smo.repair.IRepairInnerServiceSMO;
+import com.java110.core.smo.repair.IRepairUserInnerServiceSMO;
 import com.java110.dto.repair.RepairDto;
+import com.java110.dto.repair.RepairUserDto;
 import com.java110.event.service.api.ServiceDataFlowEvent;
 import com.java110.utils.constant.ServiceCodeOwnerRepairConstant;
 import com.java110.utils.util.BeanConvertUtil;
+import com.java110.utils.util.StringUtil;
 import com.java110.vo.api.ownerRepair.ApiOwnerRepairDataVo;
 import com.java110.vo.api.ownerRepair.ApiOwnerRepairVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,10 @@ public class ListOwnerRepairsListener extends AbstractServiceApiListener {
 
     @Autowired
     private IRepairInnerServiceSMO repairInnerServiceSMOImpl;
+
+
+    @Autowired
+    private IRepairUserInnerServiceSMO repairUserInnerServiceSMOImpl;
 
     @Override
     public String getServiceCode() {
@@ -64,12 +71,20 @@ public class ListOwnerRepairsListener extends AbstractServiceApiListener {
 
         RepairDto ownerRepairDto = BeanConvertUtil.covertBean(reqJson, RepairDto.class);
 
+        if (!StringUtil.isEmpty(ownerRepairDto.getRoomId()) && ownerRepairDto.getRoomId().contains(",")) {
+            String[] roomIds = ownerRepairDto.getRoomId().split(",");
+            ownerRepairDto.setRoomIds(roomIds);
+            ownerRepairDto.setRoomId("");
+        }
+
         int count = repairInnerServiceSMOImpl.queryRepairsCount(ownerRepairDto);
 
         List<ApiOwnerRepairDataVo> ownerRepairs = null;
 
         if (count > 0) {
             ownerRepairs = BeanConvertUtil.covertBeanList(repairInnerServiceSMOImpl.queryRepairs(ownerRepairDto), ApiOwnerRepairDataVo.class);
+
+            refreshStaffName(ownerRepairs);
         } else {
             ownerRepairs = new ArrayList<>();
         }
@@ -83,6 +98,31 @@ public class ListOwnerRepairsListener extends AbstractServiceApiListener {
         ResponseEntity<String> responseEntity = new ResponseEntity<String>(JSONObject.toJSONString(apiOwnerRepairVo), HttpStatus.OK);
 
         context.setResponseEntity(responseEntity);
+
+    }
+
+    private void refreshStaffName(List<ApiOwnerRepairDataVo> ownerRepairs) {
+
+        List<String> repairIds = new ArrayList<>();
+        for (ApiOwnerRepairDataVo apiOwnerRepairDataVo : ownerRepairs) {
+            repairIds.add(apiOwnerRepairDataVo.getRepairId());
+        }
+
+        if (repairIds.size() < 1) {
+            return;
+        }
+        RepairUserDto repairUserDto = new RepairUserDto();
+        repairUserDto.setRepairIds(repairIds.toArray(new String[repairIds.size()]));
+        List<RepairUserDto> repairUserDtos = repairUserInnerServiceSMOImpl.queryRepairUsers(repairUserDto);
+
+        for(RepairUserDto tmpRepairUserDto : repairUserDtos){
+            for(ApiOwnerRepairDataVo apiOwnerRepairDataVo : ownerRepairs){
+                if(tmpRepairUserDto.getRepairId().equals(apiOwnerRepairDataVo.getRepairId())){
+                    apiOwnerRepairDataVo.setUserId(tmpRepairUserDto.getUserId());
+                    apiOwnerRepairDataVo.setUserName(tmpRepairUserDto.getUserName());
+                }
+            }
+        }
 
     }
 }

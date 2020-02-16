@@ -12,6 +12,7 @@ import com.java110.utils.util.Assert;
 import com.java110.core.base.smo.BaseServiceSMO;
 import com.java110.core.context.IPageData;
 import com.java110.entity.component.ComponentValidateResult;
+import com.java110.utils.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +88,47 @@ public class BaseComponentSMO extends BaseServiceSMO {
     }
 
     /**
+     * 获取用户信息
+     *
+     * @param pd
+     * @param restTemplate
+     * @return
+     */
+    protected ResponseEntity<String> getUserInfoByOpenId(IPageData pd, RestTemplate restTemplate, String openId) {
+        //Assert.hasLength(pd.getUserId(), "用户未登录请先登录");
+        ResponseEntity<String> responseEntity = null;
+        responseEntity = this.callCenterService(restTemplate, pd, "",
+                ServiceConstant.SERVICE_API_URL + "/api/user.listUsers?openId=" + openId + "&page=1&row=1", HttpMethod.GET);
+        // 过滤返回报文中的字段，只返回name字段
+        //{"address":"","orderTypeCd":"Q","serviceCode":"","responseTime":"20190401194712","sex":"","localtionCd":"","userId":"302019033054910001","levelCd":"00","transactionId":"-1","dataFlowId":"-1","response":{"code":"0000","message":"成功"},"name":"996icu","tel":"18909780341","bId":"-1","businessType":"","email":""}
+
+        return responseEntity;
+
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param pd
+     * @param restTemplate
+     * @return
+     */
+    protected ResponseEntity<String> getUserAndAttr(IPageData pd, RestTemplate restTemplate, Map paramIn) {
+        //Assert.hasLength(pd.getUserId(), "用户未登录请先登录");
+        ResponseEntity<String> responseEntity = null;
+        if(paramIn !=null){
+            paramIn.put("page","1");
+            paramIn.put("row","1");
+        }
+        responseEntity = this.callCenterService(restTemplate, pd, "",
+                ServiceConstant.SERVICE_API_URL + "/api/user.listUsers" +mapToUrlParam(paramIn), HttpMethod.GET);
+        // 过滤返回报文中的字段，只返回name字段
+        //{"address":"","orderTypeCd":"Q","serviceCode":"","responseTime":"20190401194712","sex":"","localtionCd":"","userId":"302019033054910001","levelCd":"00","transactionId":"-1","dataFlowId":"-1","response":{"code":"0000","message":"成功"},"name":"996icu","tel":"18909780341","bId":"-1","businessType":"","email":""}
+        return responseEntity;
+
+    }
+
+    /**
      * 查询商户信息
      *
      * @return
@@ -149,9 +191,12 @@ public class BaseComponentSMO extends BaseServiceSMO {
      * @param restTemplate
      * @param privilegeCodes
      */
-    protected void checkUserHasPrivilege(IPageData pd, RestTemplate restTemplate, String ...privilegeCodes) {
+    protected void checkUserHasPrivilege(IPageData pd, RestTemplate restTemplate, String... privilegeCodes) {
         ResponseEntity<String> responseEntity = null;
-        for(String privilegeCode : privilegeCodes) {
+        if (true) {
+            return;
+        }
+        for (String privilegeCode : privilegeCodes) {
             responseEntity = this.callCenterService(restTemplate, pd, "", ServiceConstant.SERVICE_API_URL
                     + "/api/check.user.hasPrivilege?userId=" + pd.getUserId() + "&pId=" + privilegeCode, HttpMethod.GET);
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
@@ -160,9 +205,21 @@ public class BaseComponentSMO extends BaseServiceSMO {
             }
         }
 
-        if (responseEntity.getStatusCode() != HttpStatus.OK){
+        if (responseEntity.getStatusCode() != HttpStatus.OK) {
             throw new SMOException(ResponseConstant.RESULT_CODE_ERROR, "用户没有权限操作权限" + privilegeCodes);
         }
+    }
+
+    /**
+     * 根据 请求路径 判断用户是否有权限操作
+     *
+     * @param pd
+     * @param restTemplate
+     */
+    protected void checkUserHasPrivilege(IPageData pd, RestTemplate restTemplate) {
+
+        //pd.get
+
     }
 
     /**
@@ -219,11 +276,11 @@ public class BaseComponentSMO extends BaseServiceSMO {
         JSONObject paramIn = JSONObject.parseObject(pd.getReqData());
 
         String communityId = "";
-        if (paramIn.containsKey("communityId")) {
+        if (paramIn.containsKey("communityId")&& !StringUtil.isEmpty(paramIn.getString("communityId"))) {
             communityId = paramIn.getString("communityId");
             checkStoreEnterCommunity(pd, storeId, storeTypeCd, communityId, restTemplate);
         }
-        return new ComponentValidateResult(storeId, storeTypeCd, communityId, pd.getUserId());
+        return new ComponentValidateResult(storeId, storeTypeCd, communityId, pd.getUserId(), pd.getUserName());
     }
 
     /**
@@ -249,14 +306,15 @@ public class BaseComponentSMO extends BaseServiceSMO {
         String storeId = JSONObject.parseObject(responseEntity.getBody().toString()).getString("storeId");
         String storeTypeCd = JSONObject.parseObject(responseEntity.getBody().toString()).getString("storeTypeCd");
 
-        return new ComponentValidateResult(storeId, storeTypeCd, "", pd.getUserId());
+        return new ComponentValidateResult(storeId, storeTypeCd, "", pd.getUserId(), pd.getUserName());
     }
 
     /**
      * 分页信息校验
+     *
      * @param pd 页面数据封装
      */
-    protected void validatePageInfo(IPageData pd){
+    protected void validatePageInfo(IPageData pd) {
 
         Assert.jsonObjectHaveKey(pd.getReqData(), "row", "请求报文中未包含row节点");
         Assert.jsonObjectHaveKey(pd.getReqData(), "page", "请求报文中未包含page节点");

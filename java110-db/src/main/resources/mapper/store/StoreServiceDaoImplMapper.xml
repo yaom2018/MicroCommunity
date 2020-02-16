@@ -122,7 +122,16 @@
 
     <!-- 查询商户信息 add by wuxw 2018-07-03 -->
     <select id="getStoreInfo" parameterType="Map" resultType="Map">
-        select s.store_id,s.b_id,s.user_id,s.name,s.address,s.tel,s.store_type_cd,s.nearby_landmarks,s.map_x,s.map_y,s.status_cd
+        select s.store_id,s.store_id storeId,
+            s.b_id,
+            s.user_id,
+            s.name,
+            s.address,
+            s.tel,
+            s.store_type_cd,
+            s.nearby_landmarks,
+            s.map_x,s.map_y,
+            s.status_cd
         from s_store s
         where 1=1
         <if test="statusCd != null and statusCd != ''">
@@ -444,7 +453,7 @@
 
     <!-- 查询商户 -->
     <select id="getStores" parameterType="Map" resultType="Map">
-        select s.store_id,s.b_id,s.user_id,s.name,s.name storeName,s.address,s.tel,
+        select s.store_id,s.b_id,s.user_id,s.name,s.name storeName,s.address,s.tel,s.store_id storeId,
         s.store_type_cd,s.store_type_cd storeTypeCd, s.nearby_landmarks,s.map_x,s.map_y,s.status_cd,
         st.name storeTypeName
         from s_store s,store_type st
@@ -471,6 +480,13 @@
         </if>
         <if test="storeId != null and storeId !=''">
             and s.store_id = #{storeId}
+        </if>
+        <if test="storeIds !=null">
+            and s.store_id in
+            <foreach collection="storeIds" open="(" close=")"
+                     separator="," item="item">
+                #{item}
+            </foreach>
         </if>
         order by s.create_time desc
         <if test="page != -1 and page != null ">

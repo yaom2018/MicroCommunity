@@ -17,6 +17,7 @@ public class StoreDto extends PageDto implements Serializable {
 
 
     private String storeId;
+    private String[] storeIds;
     private String userId;
     private String name;
     private String address;
@@ -135,5 +136,13 @@ public class StoreDto extends PageDto implements Serializable {
 
     public void setStoreTypeName(String storeTypeName) {
         this.storeTypeName = storeTypeName;
+    }
+
+    public String[] getStoreIds() {
+        return storeIds;
+    }
+
+    public void setStoreIds(String[] storeIds) {
+        this.storeIds = storeIds;
     }
 }

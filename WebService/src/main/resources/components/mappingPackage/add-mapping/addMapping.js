@@ -87,12 +87,12 @@ remark:'',
             },
             saveMappingInfo:function(){
                 if(!vc.component.addMappingValidate()){
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
 
                     return ;
                 }
 
-                vc.component.addMappingInfo.communityId = vc.getCurrentCommunity().communityId;
+                //vc.component.addMappingInfo.communityId = vc.getCurrentCommunity().communityId;
 
                 vc.http.post(
                     'addMapping',

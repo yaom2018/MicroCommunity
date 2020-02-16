@@ -3,6 +3,9 @@ package com.java110.web.components;
 import com.alibaba.fastjson.JSONObject;
 import com.java110.core.context.IPageData;
 import com.java110.web.smo.INavServiceSMO;
+import com.java110.web.smo.community.IListMyEnteredCommunitysSMO;
+import com.java110.web.smo.msg.IListMsgSMO;
+import com.java110.web.smo.msg.IReadMsgSMO;
 import com.java110.web.smo.notice.IListNoticesSMO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,15 @@ public class NavComponent {
     @Autowired
     private IListNoticesSMO listNoticesSMOImpl;
 
+    @Autowired
+    private IListMsgSMO listMsgSMOImpl;
+
+    @Autowired
+    private IReadMsgSMO readMsgSMOImpl;
+
+    @Autowired
+    private IListMyEnteredCommunitysSMO listMyEnteredCommunitysSMOImpl;
+
 
     /**
      * 查询通知信息
@@ -32,7 +44,17 @@ public class NavComponent {
      */
     public ResponseEntity<String> getNavData(IPageData pd) {
 
-        return listNoticesSMOImpl.listNotices(pd);
+        return listMsgSMOImpl.listMsg(pd);
+    }
+
+    /**
+     * 阅读消息
+     *
+     * @param pd
+     * @return
+     */
+    public ResponseEntity<String> readMsg(IPageData pd) {
+        return readMsgSMOImpl.readMsg(pd);
     }
 
 
@@ -78,11 +100,18 @@ public class NavComponent {
      */
     public ResponseEntity<String> getCommunitys(IPageData pd) {
         ResponseEntity<String> responseEntity = null;
-        responseEntity = navServiceSMOImpl.listMyCommunity(pd);
+        responseEntity = listMyEnteredCommunitysSMOImpl.myCommunitys(pd);
 
         return responseEntity;
     }
 
+    public IListMyEnteredCommunitysSMO getListMyEnteredCommunitysSMOImpl() {
+        return listMyEnteredCommunitysSMOImpl;
+    }
+
+    public void setListMyEnteredCommunitysSMOImpl(IListMyEnteredCommunitysSMO listMyEnteredCommunitysSMOImpl) {
+        this.listMyEnteredCommunitysSMOImpl = listMyEnteredCommunitysSMOImpl;
+    }
 
     public INavServiceSMO getNavServiceSMOImpl() {
         return navServiceSMOImpl;
@@ -98,5 +127,21 @@ public class NavComponent {
 
     public void setListNoticesSMOImpl(IListNoticesSMO listNoticesSMOImpl) {
         this.listNoticesSMOImpl = listNoticesSMOImpl;
+    }
+
+    public IListMsgSMO getListMsgSMOImpl() {
+        return listMsgSMOImpl;
+    }
+
+    public void setListMsgSMOImpl(IListMsgSMO listMsgSMOImpl) {
+        this.listMsgSMOImpl = listMsgSMOImpl;
+    }
+
+    public IReadMsgSMO getReadMsgSMOImpl() {
+        return readMsgSMOImpl;
+    }
+
+    public void setReadMsgSMOImpl(IReadMsgSMO readMsgSMOImpl) {
+        this.readMsgSMOImpl = readMsgSMOImpl;
     }
 }

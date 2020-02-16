@@ -75,12 +75,12 @@
             },
             saveAppInfo: function () {
                 if (!vc.component.addAppValidate()) {
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
 
                     return;
                 }
 
-                vc.component.addAppInfo.communityId = vc.getCurrentCommunity().communityId;
+                //vc.component.addAppInfo.communityId = vc.getCurrentCommunity().communityId;
 
                 //不提交数据将数据 回调给侦听处理
                 if (vc.notNull($props.callBackListener)) {

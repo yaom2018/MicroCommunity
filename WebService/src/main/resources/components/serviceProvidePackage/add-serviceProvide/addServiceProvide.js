@@ -94,12 +94,12 @@
             },
             saveServiceProvideInfo: function () {
                 if (!vc.component.addServiceProvideValidate()) {
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
 
                     return;
                 }
 
-                vc.component.addServiceProvideInfo.communityId = vc.getCurrentCommunity().communityId;
+                //vc.component.addServiceProvideInfo.communityId = vc.getCurrentCommunity().communityId;
                 //不提交数据将数据 回调给侦听处理
                 if (vc.notNull($props.callBackListener)) {
                     vc.emit($props.callBackListener, $props.callBackFunction, vc.component.addServiceProvideInfo);

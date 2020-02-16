@@ -21,6 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.util.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 小区服务类
  */
@@ -49,9 +52,16 @@ public class CommunityServiceSMOImpl extends BaseComponentSMO implements ICommun
         String storeTypeCd = JSONObject.parseObject(responseEntity.getBody().toString()).getString("storeTypeCd");
 
         //修改用户信息
-        responseEntity = this.callCenterService(restTemplate, pd, "",
+       /* responseEntity = this.callCenterService(restTemplate, pd, "",
                 ServiceConstant.SERVICE_API_URL + "/api/query.myCommunity.byMember?memberId=" + storeId +
                         "&memberTypeCd=" + MappingCache.getValue(MappingConstant.DOMAIN_STORE_TYPE_2_COMMUNITY_MEMBER_TYPE, storeTypeCd),
+                HttpMethod.GET);*/
+        Map paramIn = new HashMap();
+        paramIn.put("memberId", storeId);
+        paramIn.put("memberTypeCd", MappingCache.getValue(MappingConstant.DOMAIN_STORE_TYPE_2_COMMUNITY_MEMBER_TYPE, storeTypeCd));
+        paramIn.putAll(_paramObj);
+        responseEntity = this.callCenterService(restTemplate, pd, "",
+                ServiceConstant.SERVICE_API_URL + "/api/query.myCommunity.byMember" + mapToUrlParam(paramIn),
                 HttpMethod.GET);
 
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
@@ -88,13 +98,13 @@ public class CommunityServiceSMOImpl extends BaseComponentSMO implements ICommun
         //修改用户信息
         if (StringUtils.isEmpty(communityName)) {
             responseEntity = this.callCenterService(restTemplate, pd, "",
-                    ServiceConstant.SERVICE_API_URL + "/api/query.noEnterCommunity.byMember?memberId=" + storeId +
-                            "&memberTypeCd=" + MappingCache.getValue(MappingConstant.DOMAIN_STORE_TYPE_2_COMMUNITY_MEMBER_TYPE, storeTypeCd),
+                    ServiceConstant.SERVICE_API_URL + "/api/query.noEnterCommunity.byMember?"
+                            + "memberTypeCd=" + MappingCache.getValue(MappingConstant.DOMAIN_STORE_TYPE_2_COMMUNITY_MEMBER_TYPE, storeTypeCd),
                     HttpMethod.GET);
         } else {
             responseEntity = this.callCenterService(restTemplate, pd, "",
-                    ServiceConstant.SERVICE_API_URL + "/api/query.noEnterCommunity.byMemberAndName?memberId=" + storeId +
-                            "&memberTypeCd=" + MappingCache.getValue(MappingConstant.DOMAIN_STORE_TYPE_2_COMMUNITY_MEMBER_TYPE, storeTypeCd)
+                    ServiceConstant.SERVICE_API_URL + "/api/query.noEnterCommunity.byMemberAndName?"
+                            + "memberTypeCd=" + MappingCache.getValue(MappingConstant.DOMAIN_STORE_TYPE_2_COMMUNITY_MEMBER_TYPE, storeTypeCd)
                             + "&name=" + communityName,
                     HttpMethod.GET);
         }

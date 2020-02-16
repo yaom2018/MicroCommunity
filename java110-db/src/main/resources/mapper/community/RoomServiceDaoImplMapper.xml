@@ -7,9 +7,10 @@
     <!-- 保存小区房屋信息 add by wuxw 2018-07-03 -->
     <insert id="saveBusinessRoomInfo" parameterType="Map">
         insert into business_building_room(
-        unit_price,section,remark,user_id,room_id,layer,built_up_area,operate,room_num,unit_id,b_id,apartment,state
+        unit_price,section,remark,user_id,room_id,layer,built_up_area,operate,room_num,unit_id,b_id,apartment,state,community_id
         ) values (
-        #{unitPrice},#{section},#{remark},#{userId},#{roomId},#{layer},#{builtUpArea},#{operate},#{roomNum},#{unitId},#{bId},#{apartment},#{state}
+        #{unitPrice},#{section},#{remark},#{userId},#{roomId},#{layer},#{builtUpArea},#{operate},#{roomNum},#{unitId},#{bId},#{apartment},#{state},
+        #{communityId}
         )
     </insert>
 
@@ -18,7 +19,8 @@
     <select id="getBusinessRoomInfo" parameterType="Map" resultType="Map">
         select t.unit_price,t.unit_price unitPrice,t.section,t.remark,t.user_id,t.user_id userId,t.room_id,t.room_id
         roomId,t.layer,t.built_up_area,t.built_up_area builtUpArea,t.operate,t.room_num,t.room_num
-        roomNum,t.unit_id,t.unit_id unitId,t.b_id,t.b_id bId,t.apartment,t.state
+        roomNum,t.unit_id,t.unit_id unitId,t.b_id,t.b_id bId,t.apartment,t.state,t.community_id,t.community_id
+        communityId
         from business_building_room t
         where 1 =1
         <if test="unitPrice !=null and unitPrice != ''">
@@ -60,6 +62,9 @@
         <if test="state !=null and state != ''">
             and t.state= #{state}
         </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
 
     </select>
 
@@ -67,9 +72,9 @@
     <!-- 保存小区房屋信息至 instance表中 add by wuxw 2018-07-03 -->
     <insert id="saveRoomInfoInstance" parameterType="Map">
         insert into building_room(
-        unit_price,section,status_cd,remark,user_id,room_id,layer,built_up_area,room_num,unit_id,b_id,apartment,state
+        unit_price,section,status_cd,remark,user_id,room_id,layer,built_up_area,room_num,unit_id,b_id,apartment,state,community_id
         ) select
-        t.unit_price,t.section,'0',t.remark,t.user_id,t.room_id,t.layer,t.built_up_area,t.room_num,t.unit_id,t.b_id,t.apartment,t.state
+        t.unit_price,t.section,'0',t.remark,t.user_id,t.room_id,t.layer,t.built_up_area,t.room_num,t.unit_id,t.b_id,t.apartment,t.state,t.community_id
         from business_building_room t where 1=1
         <if test="unitPrice !=null and unitPrice != ''">
             and t.unit_price= #{unitPrice}
@@ -108,6 +113,9 @@
         <if test="state !=null and state != ''">
             and t.state= #{state}
         </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
 
     </insert>
 
@@ -116,7 +124,8 @@
     <select id="getRoomInfo" parameterType="Map" resultType="Map">
         select t.unit_price,t.unit_price unitPrice,t.section,t.status_cd,t.status_cd
         statusCd,t.remark,t.user_id,t.user_id userId,t.room_id,t.room_id roomId,t.layer,t.built_up_area,t.built_up_area
-        builtUpArea,t.room_num,t.room_num roomNum,t.unit_id,t.unit_id unitId,t.b_id,t.b_id bId,t.apartment,t.state
+        builtUpArea,t.room_num,t.room_num roomNum,t.unit_id,t.unit_id unitId,t.b_id,t.b_id
+        bId,t.apartment,t.state,t.community_id,t.community_id communityId
         from building_room t
         where 1 =1
         <if test="unitPrice !=null and unitPrice != ''">
@@ -165,6 +174,10 @@
         <if test="state !=null and state != ''">
             and t.state= #{state}
         </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
+        order by t.create_time desc
         <if test="page != -1 and page != null">
             limit #{page},#{row}
         </if>
@@ -212,6 +225,9 @@
         where 1=1
         <if test="roomId !=null and roomId != ''">
             and t.room_id= #{roomId}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
         <if test="bId !=null and bId != ''">
             and t.b_id= #{bId}
@@ -263,6 +279,9 @@
         <if test="state !=null and state != ''">
             and t.state= #{state}
         </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
+        </if>
 
 
     </select>
@@ -271,18 +290,14 @@
     <!-- 查询小区房屋数量 add by wuxw 2018-07-03 -->
     <select id="queryRoomsByCommunityIdCount" parameterType="Map" resultType="Map">
         select count(1) count
-        FROM building_room t,s_community c,s_community_member cm,building_unit u,f_floor f
+        FROM building_room t,building_unit u,f_floor f
         WHERE 1 =1
         AND t.`unit_id` = u.`unit_id`
         AND u.`floor_id` = f.`floor_id`
-        AND f.`floor_id` = cm.`member_id`
-        AND cm.`community_id` = c.`community_id`
-        AND cm.`member_type_cd` = '390001200004'
-        AND c.`status_cd` = '0'
-        AND cm.`status_cd` = '0'
+        AND f.`community_id` = t.`community_id`
         AND u.`status_cd` = '0'
         AND f.`status_cd` = '0'
-        AND c.`community_id` = #{communityId}
+        AND t.`community_id` = #{communityId}
         <if test="floorId !=null and floorId != ''">
             and f.`floor_id`= #{floorId}
         </if>
@@ -324,6 +339,9 @@
         </if>
         <if test="state !=null and state != ''">
             and t.state= #{state}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
 
 
@@ -335,21 +353,15 @@
         count(1) count
         FROM
         building_room t,
-        s_community c,
-        s_community_member cm,
         building_unit u,
         f_floor f
         WHERE 1 =1
         AND t.`unit_id` = u.`unit_id`
         AND u.`floor_id` = f.`floor_id`
-        AND f.`floor_id` = cm.`member_id`
-        AND cm.`community_id` = c.`community_id`
-        AND cm.`member_type_cd` = '390001200004'
-        AND c.`status_cd` = '0'
-        AND cm.`status_cd` = '0'
+        AND f.`community_id` = t.`community_id`
         AND u.`status_cd` = '0'
         AND f.`status_cd` = '0'
-        AND c.`community_id` = #{communityId}
+        AND t.`community_id` = #{communityId}
         <if test="floorId !=null and floorId != ''">
             and f.`floor_id`= #{floorId}
         </if>
@@ -391,6 +403,9 @@
         </if>
         <if test="state !=null and state != ''">
             and t.state= #{state}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
         AND NOT EXISTS(
         SELECT 1 FROM building_owner_room_rel borr
@@ -407,21 +422,15 @@
         count(1) count
         FROM
         building_room t,
-        s_community c,
-        s_community_member cm,
         building_unit u,
         f_floor f
         WHERE 1 =1
         AND t.`unit_id` = u.`unit_id`
         AND u.`floor_id` = f.`floor_id`
-        AND f.`floor_id` = cm.`member_id`
-        AND cm.`community_id` = c.`community_id`
-        AND cm.`member_type_cd` = '390001200004'
-        AND c.`status_cd` = '0'
-        AND cm.`status_cd` = '0'
+        AND f.`community_id` = t.`community_id`
         AND u.`status_cd` = '0'
         AND f.`status_cd` = '0'
-        AND c.`community_id` = #{communityId}
+        AND t.`community_id` = #{communityId}
         <if test="floorId !=null and floorId != ''">
             and f.`floor_id`= #{floorId}
         </if>
@@ -463,6 +472,9 @@
         </if>
         <if test="state !=null and state != ''">
             and t.state= #{state}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
         AND EXISTS(
         SELECT 1 FROM building_owner_room_rel borr
@@ -478,18 +490,14 @@
         SELECT t.unit_price,t.unit_price unitPrice,t.section,t.status_cd,t.status_cd statusCd,t.remark,t.user_id,
         t.user_id userId,t.room_id,t.room_id roomId,t.layer,t.built_up_area,t.built_up_area builtUpArea,t.room_num,
         t.room_num roomNum,t.unit_id,t.unit_id unitId,t.b_id,t.b_id bId,t.apartment,t.state,u.`unit_num` unitNum
-        FROM building_room t,s_community c,s_community_member cm,building_unit u,f_floor f
+        FROM building_room t,building_unit u,f_floor f
         WHERE 1 =1
         AND t.`unit_id` = u.`unit_id`
         AND u.`floor_id` = f.`floor_id`
-        AND f.`floor_id` = cm.`member_id`
-        AND cm.`community_id` = c.`community_id`
-        AND cm.`member_type_cd` = '390001200004'
-        AND c.`status_cd` = '0'
-        AND cm.`status_cd` = '0'
+        AND f.`community_id` = t.`community_id`
         AND u.`status_cd` = '0'
         AND f.`status_cd` = '0'
-        AND c.`community_id` = #{communityId}
+        AND t.`community_id` = #{communityId}
         <if test="floorId !=null and floorId != ''">
             and f.`floor_id`= #{floorId}
         </if>
@@ -531,6 +539,9 @@
         </if>
         <if test="state !=null and state != ''">
             and t.state= #{state}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
         AND NOT EXISTS(
         SELECT 1 FROM building_owner_room_rel borr
@@ -548,18 +559,14 @@
         SELECT t.unit_price,t.unit_price unitPrice,t.section,t.status_cd,t.status_cd statusCd,t.remark,t.user_id,
         t.user_id userId,t.room_id,t.room_id roomId,t.layer,t.built_up_area,t.built_up_area builtUpArea,t.room_num,
         t.room_num roomNum,t.unit_id,t.unit_id unitId,t.b_id,t.b_id bId,t.apartment,t.state,u.`unit_num` unitNum
-        FROM building_room t,s_community c,s_community_member cm,building_unit u,f_floor f
+        FROM building_room t,building_unit u,f_floor f
         WHERE 1 =1
         AND t.`unit_id` = u.`unit_id`
         AND u.`floor_id` = f.`floor_id`
-        AND f.`floor_id` = cm.`member_id`
-        AND cm.`community_id` = c.`community_id`
-        AND cm.`member_type_cd` = '390001200004'
-        AND c.`status_cd` = '0'
-        AND cm.`status_cd` = '0'
+        AND f.`community_id` = t.`community_id`
         AND u.`status_cd` = '0'
         AND f.`status_cd` = '0'
-        AND c.`community_id` = #{communityId}
+        AND t.`community_id` = #{communityId}
         <if test="floorId !=null and floorId != ''">
             and f.`floor_id`= #{floorId}
         </if>
@@ -601,6 +608,9 @@
         </if>
         <if test="state !=null and state != ''">
             and t.state= #{state}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
         AND EXISTS(
         SELECT 1 FROM building_owner_room_rel borr
@@ -620,18 +630,14 @@
         t.user_id userId,t.room_id,t.room_id roomId,t.layer,t.built_up_area,t.built_up_area builtUpArea,t.room_num,
         t.room_num roomNum,t.unit_id,t.unit_id unitId,t.b_id,t.b_id bId,t.apartment,t.state,u.`unit_num` unitNum,
         u.unit_id unitId,f.floor_id floorId,f.floor_num floorNum
-        FROM building_room t,s_community c,s_community_member cm,building_unit u,f_floor f
+        FROM building_room t,building_unit u,f_floor f
         WHERE 1 =1
         AND t.`unit_id` = u.`unit_id`
         AND u.`floor_id` = f.`floor_id`
-        AND f.`floor_id` = cm.`member_id`
-        AND cm.`community_id` = c.`community_id`
-        AND cm.`member_type_cd` = '390001200004'
-        AND c.`status_cd` = '0'
-        AND cm.`status_cd` = '0'
+        AND f.`community_id` = t.`community_id`
         AND u.`status_cd` = '0'
         AND f.`status_cd` = '0'
-        AND c.`community_id` = #{communityId}
+        AND t.`community_id` = #{communityId}
         <if test="floorId !=null and floorId != ''">
             and f.`floor_id`= #{floorId}
         </if>
@@ -679,6 +685,9 @@
         </if>
         <if test="state !=null and state != ''">
             and t.state= #{state}
+        </if>
+        <if test="communityId !=null and communityId != ''">
+            and t.community_id= #{communityId}
         </if>
         <if test="page != -1 and page != null">
             limit #{page},#{row}

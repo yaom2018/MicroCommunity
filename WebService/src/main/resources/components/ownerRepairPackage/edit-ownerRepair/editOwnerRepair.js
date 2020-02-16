@@ -113,7 +113,7 @@
              },
             editOwnerRepair:function(){
                 if(!vc.component.editOwnerRepairValidate()){
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
                     return ;
                 }
                 vc.component.editOwnerRepairInfo.communityId = vc.getCurrentCommunity().communityId;
@@ -158,7 +158,7 @@
                     //vc.component.editOwnerRepairInfo.startTime = vc.dateFormat(new Date().getTime());
                      $('.editAppointmentTime').datetimepicker({
                         language: 'zh-CN',
-                        format: 'yyyy-mm-dd HH:ii:ss',
+                        format: 'yyyy-mm-dd hh:ii:ss',
                         initTime: true,
                         initialDate: new Date(),
                         autoClose: 1,

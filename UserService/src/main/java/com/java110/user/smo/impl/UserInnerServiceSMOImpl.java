@@ -1,11 +1,11 @@
 package com.java110.user.smo.impl;
 
 import com.java110.dto.PageDto;
-import com.java110.dto.org.OrgDto;
+import com.java110.dto.user.UserAttrDto;
 import com.java110.utils.constant.StatusConstant;
 import com.java110.utils.util.BeanConvertUtil;
 import com.java110.core.smo.user.IUserInnerServiceSMO;
-import com.java110.dto.UserDto;
+import com.java110.dto.user.UserDto;
 import com.java110.user.dao.IUserServiceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +65,62 @@ public class UserInnerServiceSMOImpl implements IUserInnerServiceSMO {
 
 
         return staffs;
+    }
+
+
+    @Override
+    public int getUserCount(@RequestBody UserDto userDto) {
+
+        return userServiceDaoImpl.getUserCount(BeanConvertUtil.beanCovertMap(userDto));
+    }
+
+    @Override
+    public List<UserDto> getUsers(@RequestBody UserDto userDto) {
+        //校验是否传了 分页信息
+
+        int page = userDto.getPage();
+
+        if (page != PageDto.DEFAULT_PAGE) {
+            userDto.setPage((page - 1) * userDto.getRow());
+        }
+
+        List<UserDto> staffs = BeanConvertUtil.covertBeanList(userServiceDaoImpl.getUsers(BeanConvertUtil.beanCovertMap(userDto)), UserDto.class);
+
+        freshUserAttrs(staffs);
+        return staffs;
+    }
+
+    @Override
+    public List<UserDto> getUserHasPwd(@RequestBody UserDto userDto) {
+        //校验是否传了 分页信息
+        List<UserDto> staffs = BeanConvertUtil.covertBeanList(userServiceDaoImpl.getUserHasPwd(BeanConvertUtil.beanCovertMap(userDto)), UserDto.class);
+
+        return staffs;
+
+    }
+
+    private void freshUserAttrs(List<UserDto> userDtos) {
+
+        Map param = null;
+        for (UserDto userDto : userDtos) {
+            param = new HashMap();
+            param.put("userId",userDto.getUserId());
+            List<UserAttrDto> userAttrDtos = BeanConvertUtil.covertBeanList(userServiceDaoImpl.queryUserInfoAttrs(param), UserAttrDto.class);
+            if(userAttrDtos == null || userAttrDtos.size() == 0){
+                continue;
+            }
+            userDto.setUserAttrs(userAttrDtos);
+            for(UserAttrDto userAttrDto : userAttrDtos){
+                //openId 单独出来处理
+                if("100201911001".equals(userAttrDto.getSpecCd())){
+                    userDto.setOpenId(userAttrDto.getValue());
+                }
+            }
+
+
+        }
+
+
     }
 
 

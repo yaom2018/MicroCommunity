@@ -137,6 +137,12 @@ public final class PrivilegeCodeConstant {
     //设备信息
     public static final String AGENT_HAS_LIST_MACHINE = "502019110809250044";
     public static final String AGENT_HAS_LIST_MACHINE_TRANSLATE = "502019111025350052";
+    public static final String AGENT_HAS_LIST_MACHINE_RECORD = "502019112673230007";
+    public static final String LIST_APPLICATION_KEY = "502019120169500005";
+
+
+    //巡检点权限编码
+    public static final String AGENT_HAS_LIST_INSPECTION_POINT = "502020021024790007";
 
 
 

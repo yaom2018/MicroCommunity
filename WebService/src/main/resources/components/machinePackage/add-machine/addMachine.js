@@ -15,7 +15,16 @@
                 authCode: '',
                 machineIp: '',
                 machineMac: '',
-
+                floorId: '',
+                floorNum: '',
+                floorName: '',
+                unitId: '',
+                unitName: '',
+                roomId: '',
+                locationTypeCd: '',
+                locationObjId: '',
+                roomName: '',
+                direction:''
             }
         },
         _initMethod: function () {
@@ -25,9 +34,23 @@
             vc.on('addMachine', 'openAddMachineModal', function () {
                 $('#addMachineModel').modal('show');
             });
+
+            vc.on("addMachine", "notify", function (_param) {
+                if (_param.hasOwnProperty("floorId")) {
+                    vc.component.addMachineInfo.floorId = _param.floorId;
+                }
+
+                if (_param.hasOwnProperty("unitId")) {
+                    vc.component.addMachineInfo.unitId = _param.unitId;
+                }
+
+                if(_param.hasOwnProperty("roomId")){
+                    vc.component.addMachineInfo.roomId = _param.roomId;
+                }
+            });
         },
         methods: {
-            addMachineValidate() {
+            addMachineValidate: function () {
                 return vc.validate.validate({
                     addMachineInfo: vc.component.addMachineInfo
                 }, {
@@ -69,6 +92,19 @@
                                 errInfo: "设备类型格式错误"
                             },
                         ],
+                        'addMachineInfo.direction':
+                        [
+                            {
+                                limit: "required",
+                                param: "",
+                                errInfo: "设备方向不能为空"
+                            },
+                            {
+                                limit: "num",
+                                param: "",
+                                errInfo: "设备方向格式错误"
+                            },
+                        ],
                     'addMachineInfo.authCode':
                         [
                             {
@@ -97,17 +133,45 @@
                                 param: "64",
                                 errInfo: "设备MAC 格式错误"
                             }
+                        ],
+                    'addMachineInfo.locationTypeCd':
+                        [
+                            {
+                                limit: "required",
+                                param: "",
+                                errInfo: "请选择设备位置"
+                            }
+                        ],
+                    'addMachineInfo.locationObjId':
+                        [
+                            {
+                                limit: "required",
+                                param: "",
+                                errInfo: "请选择位置"
+                            }
                         ]
                 });
             },
             saveMachineInfo: function () {
+                vc.component.addMachineInfo.communityId = vc.getCurrentCommunity().communityId;
+                if (vc.component.addMachineInfo.locationTypeCd != '2000' && vc.component.addMachineInfo.locationTypeCd != '3000') { //大门时直接写 小区ID
+                    vc.component.addMachineInfo.locationObjId = vc.component.addMachineInfo.communityId;
+                } else if (vc.component.addMachineInfo.locationTypeCd == '2000') {
+                    vc.component.addMachineInfo.locationObjId = vc.component.addMachineInfo.unitId;
+                } else if (vc.component.addMachineInfo.locationTypeCd == '3000') {
+                    vc.component.addMachineInfo.locationObjId = vc.component.addMachineInfo.roomId;
+                } else {
+                    vc.toast("设备位置值错误");
+                    return;
+                }
+
                 if (!vc.component.addMachineValidate()) {
-                    vc.message(vc.validate.errInfo);
+                    vc.toast(vc.validate.errInfo);
 
                     return;
                 }
 
-                vc.component.addMachineInfo.communityId = vc.getCurrentCommunity().communityId;
+
                 //不提交数据将数据 回调给侦听处理
                 if (vc.notNull($props.callBackListener)) {
                     vc.emit($props.callBackListener, $props.callBackFunction, vc.component.addMachineInfo);
@@ -151,8 +215,31 @@
                     authCode: '',
                     machineIp: '',
                     machineMac: '',
-
+                    direction:''
                 };
+            },
+            _initAddMachineData: function () {
+                $('.floorSelector').select2({
+                    placeholder: '必填，请选择楼栋',
+                    ajax: {
+                        url: "sdata.json",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                floorNum: vc.component.addMachineInfo.floorNum,
+                                /* page:*/
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: data
+                            };
+                        },
+                        cache: true
+                    },
+                    minimumInputLength: 2
+                });
             }
         }
     });

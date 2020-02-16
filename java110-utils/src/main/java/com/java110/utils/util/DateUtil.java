@@ -16,6 +16,8 @@ public class DateUtil {
 
     private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
 
+    public static final String LAST_TIME = "2038-01-01 00:00:00";
+
     private static Map<String, SimpleDateFormat> formats = new HashMap();
     public static final String DATE_FORMATE_STRING_DEFAULT = "yyyyMMddHHmmss";
     public static final String DATE_FORMATE_STRING_A = "yyyy-MM-dd HH:mm:ss";
@@ -144,6 +146,10 @@ public class DateUtil {
 
     public static String getNow(String pattern) {
         return getFormatTimeString(new Date(), pattern);
+    }
+
+    public static String getLastTime(){
+        return LAST_TIME;
     }
 
     public static String getNowII() {
@@ -380,5 +386,14 @@ public class DateUtil {
             return false;
         }
         return true;
+    }
+
+
+    public static int getCurrentMonthDay() {
+        Calendar a = Calendar.getInstance();
+        a.set(Calendar.DATE, 1);
+        a.roll(Calendar.DATE, -1);
+        int maxDate = a.get(Calendar.DATE);
+        return maxDate;
     }
 }

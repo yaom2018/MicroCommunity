@@ -2,7 +2,7 @@
     权限组
 **/
 (function(vc){
-
+    var _fileUrl = '/callComponent/download/getFile/fileByObjId';
     vc.extends({
         propTypes: {
            callBackListener:vc.propTypes.string,
@@ -12,13 +12,16 @@
         data:{
             viewOwnerInfo:{
                 flowComponent:'viewOwnerInfo',
+                viewOwnerFlag:'',
                 ownerId:"",
                 name:"",
                 age:"",
                 sex:"",
                 userName:"",
                 remark:"",
+                idCard:"",
                 link:"",
+                ownerPhoto:"/img/noPhoto.gif",
                 showCallBackButton:$props.showCallBackButton
             }
         },
@@ -30,6 +33,10 @@
                 /*if(_index == 2){
                    vc.emit($props.callBackListener,$props.callBackFunction,vc.component.viewOwnerInfo);
                 }*/
+            });
+
+            vc.on('viewOwnerInfo','chooseOwner',function(_owner){
+                vc.copyObject(_owner,vc.component.viewOwnerInfo);
             });
 
             vc.on('viewOwnerInfo','callBackOwnerInfo',function(_info){
@@ -46,6 +53,8 @@
                 if(!vc.notNull(_ownerId)){
                     return ;
                 }
+
+                vc.component.viewOwnerInfo.viewOwnerFlag = 'Owner';
 
                var param = {
                     params:{
@@ -64,6 +73,8 @@
                              function(json,res){
                                 var listOwnerData =JSON.parse(json);
                                 vc.copyObject(listOwnerData.owners[0],vc.component.viewOwnerInfo);
+                                //加载图片
+                                vc.component._loadOwnerPhoto();
                              },function(errInfo,error){
                                 console.log('请求失败处理');
                              }
@@ -72,6 +83,16 @@
             },
             _callBackListOwner:function(_ownerId){
                 vc.jumpToPage("/flow/ownerFlow?ownerId="+_ownerId);
+            },
+            _loadOwnerPhoto:function(){
+                vc.component.viewOwnerInfo.ownerPhoto = _fileUrl+"?objId="+
+                               vc.component.viewOwnerInfo.ownerId +"&communityId="+vc.getCurrentCommunity().communityId+"&fileTypeCd=10000&time="+new Date();
+            },
+            errorLoadImg:function(){
+                vc.component.viewOwnerInfo.ownerPhoto="/img/noPhoto.gif";
+            },
+            _openChooseOwner:function(){
+                vc.emit('searchOwner','openSearchOwnerModel',{});
             }
 
         }

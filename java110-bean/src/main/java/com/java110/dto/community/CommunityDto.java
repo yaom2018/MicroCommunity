@@ -20,11 +20,14 @@ public class CommunityDto extends PageDto implements Serializable {
     private String cityCode;
     private String name;
     private String communityId;
+    private String[] notInCommunityId;
     private String mapY;
     private String mapX;
     private String memberId;
     private String state;
     private String stateName;
+    private String[] communityIds;
+    private String auditStatusCd;
 
 
 
@@ -128,5 +131,29 @@ public class CommunityDto extends PageDto implements Serializable {
 
     public void setStateName(String stateName) {
         this.stateName = stateName;
+    }
+
+    public String[] getCommunityIds() {
+        return communityIds;
+    }
+
+    public void setCommunityIds(String[] communityIds) {
+        this.communityIds = communityIds;
+    }
+
+    public String getAuditStatusCd() {
+        return auditStatusCd;
+    }
+
+    public void setAuditStatusCd(String auditStatusCd) {
+        this.auditStatusCd = auditStatusCd;
+    }
+
+    public String[] getNotInCommunityId() {
+        return notInCommunityId;
+    }
+
+    public void setNotInCommunityId(String[] notInCommunityId) {
+        this.notInCommunityId = notInCommunityId;
     }
 }

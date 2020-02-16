@@ -29,6 +29,8 @@ public abstract class AbstractComponentSMO extends BaseComponentSMO {
 
         JSONObject paramIn = JSONObject.parseObject(pd.getReqData());
 
+        logger.debug("businessProcess: pd=" + JSONObject.toJSONString(pd));
+
 
         //业务数据校验
         validate(pd, paramIn);
@@ -58,5 +60,5 @@ public abstract class AbstractComponentSMO extends BaseComponentSMO {
      * @param pd      页面数据封装
      * @param paramIn 前台数据对象
      */
-    protected abstract ResponseEntity<String> doBusinessProcess(IPageData pd, JSONObject paramIn) throws IOException;
+    protected abstract ResponseEntity<String> doBusinessProcess(IPageData pd, JSONObject paramIn) throws Exception;
 }
